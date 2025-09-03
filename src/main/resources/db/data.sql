@@ -1,5 +1,5 @@
-insert into user_tb (username, password, email, roles) values ('ssar', '1234', 'ssar@metacoding.com', 'USER');
-insert into user_tb (username, password, email, roles) values ('cos', '1234', 'cos@metacoding.com', 'USER');
+insert into user_tb (username, password, email, roles) values ('ssar', '$2y$04$0yDwb5VSijD7z8Wj3lFlwu50bcZRkUwqZQWekol9g.h1eCEto02VK', 'ssar@metacoding.com', 'USER');
+insert into user_tb (username, password, email, roles) values ('cos', '$2y$04$0yDwb5VSijD7z8Wj3lFlwu50bcZRkUwqZQWekol9g.h1eCEto02VK', 'cos@metacoding.com', 'USER');
 
 insert into board_tb (title, content, user_id) values ('title 1', 'Spring Study 1', 1);
 insert into board_tb (title, content, user_id) values ('title 2', 'Spring Study 2', 1);

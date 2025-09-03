@@ -7,17 +7,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-
+import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletRequest;
 
+@RequiredArgsConstructor
 @Component
 public class JWTProvider {
 
     private final UserDetailsService userDetailsService;
 
-    public JWTProvider(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     // 요청 헤더에서 토큰 추출
     public String resolveToken(HttpServletRequest request) {
