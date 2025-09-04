@@ -18,9 +18,10 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/api/users")
-    public ResponseEntity<?> updateUser(@RequestBody UserRequest.UpdateDTO requestDTO,@RequestHeader("Authorization") String jwtToken) {
+    public ResponseEntity<?> updateUser(@RequestBody UserRequest.UpdateDTO requestDTO, @RequestHeader("Authorization") String jwtToken) {
         String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
         AuthResponse.DTO responseDTO = userService.회원수정(requestDTO,JWTUtil.verify(token).getUsername());
         return ResponseEntity.ok(responseDTO);
     }
+
 }

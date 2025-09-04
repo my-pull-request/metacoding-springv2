@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -25,5 +28,10 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody AuthRequest.LoginDTO requestDTO) {
         String jwtToken = userService.로그인(requestDTO);
         return ResponseEntity.ok(jwtToken);
+    }
+
+    @GetMapping("/check-username")
+    public ResponseEntity<?> getUsername(@RequestParam String username) {
+        return ResponseEntity.ok(userService.회원중복체크(username));
     }
 }
