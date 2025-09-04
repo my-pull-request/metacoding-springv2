@@ -33,7 +33,7 @@ public class Board {
     private User user; 
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY) 
-    private List<Reply> replies = new ArrayList<>();; 
+    private List<Reply> replies = new ArrayList<>();
 
     public void update(String title, String content){
         this.title = title;
