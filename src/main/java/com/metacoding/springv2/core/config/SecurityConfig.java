@@ -7,9 +7,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.metacoding.springv2.core.filter.JWTAuthorizationFilter;
+import com.metacoding.springv2.core.util.JWTProvider;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+
+    private final JWTProvider jwtProvider;
 
     @Bean
     public BCryptPasswordEncoder encodePwd() {
@@ -38,7 +43,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
         );
 
-        http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JWTAuthorizationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

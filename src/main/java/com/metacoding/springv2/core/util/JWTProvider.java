@@ -1,11 +1,9 @@
-package main.java.com.metacoding.springv2.core.util;
+package com.metacoding.springv2.core.util;
 
 import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.domain.user.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @Component
 public class JWTProvider {
-
-    private final UserDetailsService userDetailsService;
 
 
     // 요청 헤더에서 토큰 추출
@@ -29,12 +25,11 @@ public class JWTProvider {
     // 토큰을 검증하고 Authentication 반환
     public Authentication getAuthentication(String token) {
         try {
-            User user = JWTUtil.verify(token); // JwtUtil에서 User 객체 생성
-            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+            User user = JWTUtil.verify(token); // JWTUtil에서 User 객체 생성
             return new UsernamePasswordAuthenticationToken(
-                    userDetails,
+                    user,
                     null,
-                    userDetails.getAuthorities()
+                    user.getAuthorities()
             );
         } catch (Exception e) {
             return null;
