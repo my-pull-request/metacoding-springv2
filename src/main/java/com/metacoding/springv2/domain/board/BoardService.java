@@ -68,4 +68,10 @@ public class BoardService {
         }
         boardRepository.deleteById(boardId);
     }
+
+    @Transactional
+    public void 관리자게시글삭제(Integer boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
+        boardRepository.deleteById(boardId);
+    }
 }
