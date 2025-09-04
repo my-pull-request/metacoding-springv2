@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import com.metacoding.springv2.domain.board.BoardService;
 import com.metacoding.springv2.domain.board.BoardRequest;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.domain.board.BoardResponse;
 import java.util.List;
 import com.metacoding.springv2.domain.user.User;

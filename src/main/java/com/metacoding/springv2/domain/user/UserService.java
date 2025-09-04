@@ -13,7 +13,6 @@ import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.core.handler.ex.Exception401;
 import com.metacoding.springv2.core.handler.ex.Exception403;
 import com.metacoding.springv2.core.handler.ex.Exception404;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
