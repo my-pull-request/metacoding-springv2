@@ -12,6 +12,7 @@ import com.metacoding.springv2.domain.board.BoardResponse;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.metacoding.springv2.core.handler.ex.Exception404;
+import com.metacoding.springv2.core.handler.ex.Exception403;
 
 @RequiredArgsConstructor
 @Service
@@ -37,6 +38,15 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
         Boolean isBoardOwner = (board.getUser().getId() == user.getId());
         BoardResponse.DetailDTO reponseDTO = new BoardResponse.DetailDTO(board,isBoardOwner);
+        return reponseDTO;
+    }
+
+    public BoardResponse.DTO 게시글수정정보(Integer boardId, User user) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
+        if(board.getUser().getId() != user.getId()) {
+            throw new Exception403("게시글을 수정할 권한이 없습니다.");
+        }
+        BoardResponse.DTO reponseDTO = new BoardResponse.DTO(board);
         return reponseDTO;
     }
 }

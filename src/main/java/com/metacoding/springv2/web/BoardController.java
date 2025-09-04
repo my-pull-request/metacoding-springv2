@@ -43,4 +43,12 @@ public class BoardController {
         BoardResponse.DetailDTO responseDTO = boardService.게시글상세(boardId,user);
         return ResponseEntity.ok(responseDTO);
     }
+
+    @GetMapping("/api/boards/{boardId}/edit")
+    public ResponseEntity<?> edit(@RequestHeader("Authorization") String jwtToken, @PathVariable Integer boardId) {
+        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
+        User user = JWTUtil.verify(token);
+        BoardResponse.DTO responseDTO = boardService.게시글수정정보(boardId,user);
+        return ResponseEntity.ok(responseDTO);
+    }
 }   
