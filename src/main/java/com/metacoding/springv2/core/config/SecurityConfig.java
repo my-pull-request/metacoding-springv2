@@ -45,10 +45,10 @@ public class SecurityConfig {
  
         http.authorizeHttpRequests(
                 authorize -> authorize
-                        .requestMatchers("/api/users/**").hasRole("USER")
-                        .requestMatchers("/api/boards/**").hasRole("USER")
-                        .requestMatchers("/api/replies/**").hasRole("USER")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/boards/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/replies/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
         );
 
