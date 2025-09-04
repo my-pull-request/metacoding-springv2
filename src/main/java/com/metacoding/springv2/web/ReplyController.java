@@ -12,6 +12,8 @@ import com.metacoding.springv2.domain.reply.ReplyResponse;
 import com.metacoding.springv2.domain.user.User;
 import com.metacoding.springv2.domain.reply.ReplyService;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.validation.Errors;
+import jakarta.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,7 +21,7 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping("/api/replies")
-    public ResponseEntity<?> save(Authentication authentication, @RequestBody ReplyRequest.SaveDTO requestDTO) {
+    public ResponseEntity<?> save(@Valid Authentication authentication, @RequestBody ReplyRequest.SaveDTO requestDTO,Errors errors) {
         User user = (User) authentication.getPrincipal();
         ReplyResponse.DTO responseDTO = replyService.댓글쓰기(requestDTO, user);
         return ResponseEntity.ok(responseDTO);

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.Errors;
+import jakarta.validation.Valid;
 
 
 @RequiredArgsConstructor
@@ -19,13 +21,13 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody AuthRequest.JoinDTO requestDTO) {
+    public ResponseEntity<?> join(@Valid @RequestBody AuthRequest.JoinDTO requestDTO,Errors errors) {
        AuthResponse.DTO responseDTO = userService.회원가입(requestDTO);
        return ResponseEntity.ok(responseDTO);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest.LoginDTO requestDTO) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthRequest.LoginDTO requestDTO,Errors errors) {
         String jwtToken = userService.로그인(requestDTO);
         return ResponseEntity.ok(jwtToken);
     }

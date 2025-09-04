@@ -31,7 +31,6 @@ public class SecurityConfig {
         http.formLogin(f -> f.disable());
         http.httpBasic(basic -> basic.disable());
 
-        // H2 Console은 iframe으로 동작하므로, 이 설정이 필요합니다.
         http.headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
