@@ -35,7 +35,6 @@ public class JWTUtil {
         String username = decodedJWT.getSubject();
         String roles = decodedJWT.getClaim("roles").asString();
 
-
         return User.builder().id(id).username(username).roles(roles).build();
     }
 }

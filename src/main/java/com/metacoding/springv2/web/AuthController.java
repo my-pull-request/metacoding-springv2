@@ -23,7 +23,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest.LoginDTO requestDTO) {
-        System.out.println("requestDTO 확인 : " + requestDTO);
         String jwtToken = userService.로그인(requestDTO);
         return ResponseEntity.ok(jwtToken);
     }

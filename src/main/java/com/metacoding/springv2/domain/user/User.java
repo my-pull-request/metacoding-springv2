@@ -36,6 +36,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public void update(String email, String password){
+        this.email = email;
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
