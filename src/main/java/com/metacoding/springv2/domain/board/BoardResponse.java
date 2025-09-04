@@ -19,16 +19,20 @@ public class BoardResponse {
     }
     @Data
     public static class DetailDTO{
-        private Integer id;
+        private Integer boardId;
         private String title;
         private String content;
-        private User user;
+        private Integer userId;
+        private String username;
+        private Boolean isBoardOwner;
 
-        public DetailDTO(Board board){
-            this.id = board.getId();
+        public DetailDTO(Board board, Boolean isBoardOwner){
+            this.boardId = board.getId();
             this.title = board.getTitle();
             this.content = board.getContent();
-            this.user = board.getUser();
+            this.userId = board.getUser().getId();
+            this.username = board.getUser().getUsername();
+            this.isBoardOwner = isBoardOwner;
         }
     }
 }

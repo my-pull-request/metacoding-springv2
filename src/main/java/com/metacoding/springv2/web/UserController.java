@@ -27,9 +27,9 @@ public class UserController {
     }
 
     
-    @GetMapping("/api/users/{id}")
-    public ResponseEntity<?> getUser(@PathVariable Integer id) {
-        AuthResponse.DTO responseDTO = userService.회원조회(id);
+    @GetMapping("/api/users/{userId}")
+    public ResponseEntity<?> getUser(@PathVariable Integer userId) {
+        AuthResponse.DTO responseDTO = userService.회원조회(userId);
         return ResponseEntity.ok(responseDTO);
     }
 
