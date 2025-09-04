@@ -16,6 +16,7 @@ import com.metacoding.springv2.domain.user.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.core.Authentication;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,41 +31,36 @@ public class BoardController {
     }
 
     @PostMapping("/api/boards")
-    public ResponseEntity<?> save(@RequestHeader("Authorization") String jwtToken, @RequestBody BoardRequest.SaveDTO requestDTO) {
-        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
-        User user = JWTUtil.verify(token);
+    public ResponseEntity<?> save(Authentication authentication, @RequestBody BoardRequest.SaveDTO requestDTO) {
+        User user = (User) authentication.getPrincipal();
         BoardResponse.DTO responseDTO = boardService.게시글쓰기(requestDTO,user);
         return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping("/api/boards/{boardId}")
-    public ResponseEntity<?> findById(@RequestHeader("Authorization") String jwtToken, @PathVariable Integer boardId) {
-        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
-        User user = JWTUtil.verify(token);
+    public ResponseEntity<?> findById(Authentication authentication, @PathVariable Integer boardId) {
+        User user = (User) authentication.getPrincipal();
         BoardResponse.DetailDTO responseDTO = boardService.게시글상세(boardId,user);
         return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping("/api/boards/{boardId}/edit")
-    public ResponseEntity<?> edit(@RequestHeader("Authorization") String jwtToken, @PathVariable Integer boardId) {
-        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
-        User user = JWTUtil.verify(token);
+    public ResponseEntity<?> edit(Authentication authentication, @PathVariable Integer boardId) {
+        User user = (User) authentication.getPrincipal();
         BoardResponse.DTO responseDTO = boardService.게시글수정정보(boardId,user);
         return ResponseEntity.ok(responseDTO);
     }
 
     @PutMapping("/api/boards/{boardId}")
-    public ResponseEntity<?> update(@RequestHeader("Authorization") String jwtToken, @PathVariable Integer boardId, @RequestBody BoardRequest.UpdateDTO requestDTO) {
-        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
-        User user = JWTUtil.verify(token);
+    public ResponseEntity<?> update(Authentication authentication, @PathVariable Integer boardId, @RequestBody BoardRequest.UpdateDTO requestDTO) {
+        User user = (User) authentication.getPrincipal();
         BoardResponse.DTO responseDTO = boardService.게시글수정(requestDTO,boardId,user);
         return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("/api/boards/{boardId}")
-    public ResponseEntity<?> delete(@RequestHeader("Authorization") String jwtToken, @PathVariable Integer boardId) {
-        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
-        User user = JWTUtil.verify(token);
+    public ResponseEntity<?> delete(Authentication authentication, @PathVariable Integer boardId) {
+        User user = (User) authentication.getPrincipal();
         boardService.게시글삭제(boardId,user);
         return ResponseEntity.ok("게시글 삭제 완료");
     }
