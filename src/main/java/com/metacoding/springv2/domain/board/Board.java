@@ -35,6 +35,11 @@ public class Board {
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY) 
     private List<Reply> replies = new ArrayList<>();; 
 
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
     @Builder
     public Board(String title, String content, User user) {
         this.title = title;

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.sql.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 @NoArgsConstructor
 @Getter
@@ -26,6 +28,9 @@ public class User implements UserDetails {
     @Column(length = 30,nullable = false)
     private String email;
     private String roles; 
+
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     @Builder
     public User(Integer id,String username, String password, String email, String roles) {
