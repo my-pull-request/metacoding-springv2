@@ -13,7 +13,7 @@ public class UserRequest {
         @Email(message = "이메일 형식이 올바르지 않습니다")
         private String email;
         @NotBlank(message = "비밀번호를 입력해주세요")
-        @Size(min = 8, max = 64, message = "비밀번호는 8~60자여야 합니다")
+        @Size(min = 4, max = 60, message = "비밀번호는 4~60자여야 합니다")
         private String password;
     }
 }

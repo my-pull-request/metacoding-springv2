@@ -11,6 +11,7 @@ import com.metacoding.springv2.domain.user.UserRepository;
 import com.metacoding.springv2.domain.user.UserRequest;
 import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.core.handler.ex.Exception401;
+import com.metacoding.springv2.core.handler.ex.Exception403;
 import com.metacoding.springv2.core.handler.ex.Exception404;
 import java.util.Optional;
 
@@ -39,7 +40,10 @@ public class UserService {
         return jwtToken;
     }
 
-    public AuthResponse.DTO 회원조회(Integer userId) {
+    public AuthResponse.DTO 회원조회(Integer userId, Integer tokenUserId) {
+        if(tokenUserId != userId){
+            throw new Exception403("접근할 수 없는 유저입니다");
+        }
         User user = userRepository.findById(userId).orElseThrow(() -> new Exception404("유저네임을 찾을 수 없습니다"));
         return new AuthResponse.DTO(user);
     }

@@ -21,7 +21,7 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping("/api/replies")
-    public ResponseEntity<?> save(@Valid Authentication authentication, @RequestBody ReplyRequest.SaveDTO requestDTO,Errors errors) {
+    public ResponseEntity<?> save(Authentication authentication,@Valid @RequestBody ReplyRequest.SaveDTO requestDTO,Errors errors) {
         User user = (User) authentication.getPrincipal();
         ReplyResponse.DTO responseDTO = replyService.댓글쓰기(requestDTO, user);
         return ResponseEntity.ok(responseDTO);

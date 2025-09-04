@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.validation.Errors;
 import jakarta.validation.Valid;
+import com.metacoding.springv2.domain.user.User;
+import org.springframework.security.core.Authentication;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,16 +24,17 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/api/users")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UserRequest.UpdateDTO requestDTO, @RequestHeader("Authorization") String jwtToken,Errors errors) {
-        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
-        AuthResponse.DTO responseDTO = userService.회원수정(requestDTO,JWTUtil.verify(token).getUsername());
+    public ResponseEntity<?> updateUser(Authentication authentication,@Valid @RequestBody UserRequest.UpdateDTO requestDTO,Errors errors) {
+        User user = (User) authentication.getPrincipal();
+        AuthResponse.DTO responseDTO = userService.회원수정(requestDTO,user.getUsername());
         return ResponseEntity.ok(responseDTO);
     }
 
     
     @GetMapping("/api/users/{userId}")
-    public ResponseEntity<?> getUser(@PathVariable Integer userId) {
-        AuthResponse.DTO responseDTO = userService.회원조회(userId);
+    public ResponseEntity<?> getUser(Authentication authentication,@PathVariable Integer userId) {
+        User user = (User) authentication.getPrincipal();
+        AuthResponse.DTO responseDTO = userService.회원조회(userId,user.getId());
         return ResponseEntity.ok(responseDTO);
     }
 

@@ -33,7 +33,7 @@ public class BoardController {
     }
 
     @PostMapping("/api/boards")
-    public ResponseEntity<?> save(@Valid Authentication authentication, @RequestBody BoardRequest.SaveDTO requestDTO,Errors errors) {
+    public ResponseEntity<?> save(Authentication authentication,@Valid @RequestBody BoardRequest.SaveDTO requestDTO,Errors errors) {
         User user = (User) authentication.getPrincipal();
         BoardResponse.DTO responseDTO = boardService.게시글쓰기(requestDTO,user);
         return ResponseEntity.ok(responseDTO);
@@ -54,7 +54,7 @@ public class BoardController {
     }
 
     @PutMapping("/api/boards/{boardId}")
-    public ResponseEntity<?> update(@Valid Authentication authentication, @PathVariable Integer boardId, @RequestBody BoardRequest.UpdateDTO requestDTO,Errors errors) {
+    public ResponseEntity<?> update(Authentication authentication, @PathVariable Integer boardId,@Valid @RequestBody BoardRequest.UpdateDTO requestDTO,Errors errors) {
         User user = (User) authentication.getPrincipal();
         BoardResponse.DTO responseDTO = boardService.게시글수정(requestDTO,boardId,user);
         return ResponseEntity.ok(responseDTO);
