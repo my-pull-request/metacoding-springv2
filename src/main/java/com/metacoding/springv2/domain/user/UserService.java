@@ -48,7 +48,6 @@ public class UserService {
     public AuthResponse.DTO 회원수정(UserRequest.UpdateDTO requestDTO, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new Exception404("유저네임을 찾을 수 없습니다"));
         user.update(requestDTO.getEmail(), bCryptPasswordEncoder.encode(requestDTO.getPassword()));
-        userRepository.save(user);
         return new AuthResponse.DTO(user);
     }
 

@@ -14,7 +14,7 @@ import com.metacoding.springv2.domain.board.BoardResponse;
 import java.util.List;
 import com.metacoding.springv2.domain.user.User;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RequiredArgsConstructor
 @RestController
@@ -49,6 +49,14 @@ public class BoardController {
         String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
         User user = JWTUtil.verify(token);
         BoardResponse.DTO responseDTO = boardService.게시글수정정보(boardId,user);
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @PutMapping("/api/boards/{boardId}")
+    public ResponseEntity<?> update(@RequestHeader("Authorization") String jwtToken, @PathVariable Integer boardId, @RequestBody BoardRequest.UpdateDTO requestDTO) {
+        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
+        User user = JWTUtil.verify(token);
+        BoardResponse.DTO responseDTO = boardService.게시글수정(requestDTO,boardId,user);
         return ResponseEntity.ok(responseDTO);
     }
 }   

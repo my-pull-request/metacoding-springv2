@@ -49,4 +49,14 @@ public class BoardService {
         BoardResponse.DTO reponseDTO = new BoardResponse.DTO(board);
         return reponseDTO;
     }
+
+    @Transactional
+    public BoardResponse.DTO 게시글수정(BoardRequest.UpdateDTO requestDTO, Integer boardId, User user) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
+        if(board.getUser().getId() != user.getId()) {
+            throw new Exception403("게시글을 수정할 권한이 없습니다.");
+        }
+        board.update(requestDTO.getTitle(), requestDTO.getContent());
+        return new BoardResponse.DTO(board);
+    }
 }
