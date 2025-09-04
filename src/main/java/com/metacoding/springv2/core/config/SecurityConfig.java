@@ -9,12 +9,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.metacoding.springv2.core.filter.JWTAuthorizationFilter;
 import com.metacoding.springv2.core.util.JWTProvider;
 import lombok.RequiredArgsConstructor;
+import com.metacoding.springv2.core.handler.Jwt401Handler;
+import com.metacoding.springv2.core.handler.Jwt403Handler;
 
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
 
     private final JWTProvider jwtProvider;
+    private final Jwt401Handler jwt401Handler;
+    private final Jwt403Handler jwt403Handler;
 
     @Bean
     public BCryptPasswordEncoder encodePwd() {
@@ -32,6 +36,11 @@ public class SecurityConfig {
                 .frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
         http.csrf(configure -> configure.disable());
+
+        http.exceptionHandling(ex -> ex
+            .authenticationEntryPoint(jwt401Handler)
+            .accessDeniedHandler(jwt403Handler)
+        );
 
  
         http.authorizeHttpRequests(

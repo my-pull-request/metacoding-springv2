@@ -45,7 +45,7 @@ public class BoardController {
     }
 
     @GetMapping("/api/boards/{boardId}/edit")
-    public ResponseEntity<?> edit(Authentication authentication, @PathVariable Integer boardId) {
+    public ResponseEntity<?> updateInfo(Authentication authentication, @PathVariable Integer boardId) {
         User user = (User) authentication.getPrincipal();
         BoardResponse.DTO responseDTO = boardService.게시글수정정보(boardId,user);
         return ResponseEntity.ok(responseDTO);
@@ -59,7 +59,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/api/boards/{boardId}")
-    public ResponseEntity<?> delete(Authentication authentication, @PathVariable Integer boardId) {
+    public ResponseEntity<?> deleteById(Authentication authentication, @PathVariable Integer boardId) {
         User user = (User) authentication.getPrincipal();
         boardService.게시글삭제(boardId,user);
         return ResponseEntity.ok("게시글 삭제 완료");
