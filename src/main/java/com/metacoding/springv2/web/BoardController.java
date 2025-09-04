@@ -15,6 +15,7 @@ import java.util.List;
 import com.metacoding.springv2.domain.user.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RequiredArgsConstructor
 @RestController
@@ -58,5 +59,13 @@ public class BoardController {
         User user = JWTUtil.verify(token);
         BoardResponse.DTO responseDTO = boardService.게시글수정(requestDTO,boardId,user);
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @DeleteMapping("/api/boards/{boardId}")
+    public ResponseEntity<?> delete(@RequestHeader("Authorization") String jwtToken, @PathVariable Integer boardId) {
+        String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
+        User user = JWTUtil.verify(token);
+        boardService.게시글삭제(boardId,user);
+        return ResponseEntity.ok("게시글 삭제 완료");
     }
 }   

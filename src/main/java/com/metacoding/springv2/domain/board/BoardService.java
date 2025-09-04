@@ -59,4 +59,13 @@ public class BoardService {
         board.update(requestDTO.getTitle(), requestDTO.getContent());
         return new BoardResponse.DTO(board);
     }
+
+    @Transactional
+    public void 게시글삭제(Integer boardId, User user) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
+        if(board.getUser().getId() != user.getId()) {
+            throw new Exception403("게시글을 삭제할 권한이 없습니다.");
+        }
+        boardRepository.deleteById(boardId);
+    }
 }
