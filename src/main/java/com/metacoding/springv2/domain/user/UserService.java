@@ -39,6 +39,11 @@ public class UserService {
         return jwtToken;
     }
 
+    public AuthResponse.DTO 회원조회(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new Exception404("유저네임을 찾을 수 없습니다"));
+        return new AuthResponse.DTO(user);
+    }
+
     @Transactional
     public AuthResponse.DTO 회원수정(UserRequest.UpdateDTO requestDTO, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new Exception404("유저네임을 찾을 수 없습니다"));

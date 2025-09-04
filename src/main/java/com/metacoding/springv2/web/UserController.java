@@ -10,6 +10,8 @@ import com.metacoding.springv2.domain.user.UserRequest;
 import com.metacoding.springv2.domain.auth.AuthResponse;
 import com.metacoding.springv2.core.util.JWTUtil;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,6 +23,13 @@ public class UserController {
     public ResponseEntity<?> updateUser(@RequestBody UserRequest.UpdateDTO requestDTO, @RequestHeader("Authorization") String jwtToken) {
         String token = jwtToken.replace(JWTUtil.TOKEN_PREFIX, "");
         AuthResponse.DTO responseDTO = userService.회원수정(requestDTO,JWTUtil.verify(token).getUsername());
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    
+    @GetMapping("/api/users/{id}")
+    public ResponseEntity<?> getUser(@PathVariable Integer id) {
+        AuthResponse.DTO responseDTO = userService.회원조회(id);
         return ResponseEntity.ok(responseDTO);
     }
 

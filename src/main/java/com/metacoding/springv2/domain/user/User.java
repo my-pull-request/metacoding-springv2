@@ -50,8 +50,6 @@ public class User implements UserDetails {
         for (String role : roleList) {
             authorities.add(() -> "ROLE_" + role);
         }
-
         return authorities;
     }
-
 }
