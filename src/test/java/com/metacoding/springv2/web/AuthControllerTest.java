@@ -3,11 +3,7 @@ package com.metacoding.springv2.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metacoding.springv2.domain.auth.AuthRequest;
 import com.metacoding.springv2.domain.user.User;
-import com.metacoding.springv2.domain.user.UserRepository;
 import com.metacoding.springv2.core.util.JWTUtil;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
@@ -19,9 +15,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 
 @Transactional
 @AutoConfigureWebMvc
@@ -34,36 +33,26 @@ class AuthControllerTest {
     private ObjectMapper om;
 
     @Autowired
-    private UserRepository userRepository;
-    
-    private String accessToken;
+    private WebApplicationContext context;
 
     @BeforeEach
-    public void setUp() {
-        
-        // 테스트 시작 전에 실행할 코드
-        System.out.println("setUp");
-        User ssar = User.builder()
-                .id(1)
-                .username("ssar")
-                .roles("USER")
-                .build();
-        accessToken = JWTUtil.create(ssar);
+    void setUp() {
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @AfterEach
-    public void tearDown() { 
-        System.out.println("tearDown");
+    void tearDown() {
     }
 
-    @DisplayName("회원가입 성공 테스트")
+
+    // 회원가입 성공
     @Test
-    void join_success_test() throws Exception {
+    public void join_success_test() throws Exception {
         // given
         AuthRequest.JoinDTO joinDTO = new AuthRequest.JoinDTO();
-        joinDTO.setUsername("testuser");
+        joinDTO.setUsername("testUser");
         joinDTO.setPassword("1234");
-        joinDTO.setEmail("test@example.com");
+        joinDTO.setEmail("test@metacoding.com");
         joinDTO.setRoles("USER");
 
         String requestBody = om.writeValueAsString(joinDTO);
@@ -76,140 +65,78 @@ class AuthControllerTest {
         );
 
         // then
-        String response = result.andReturn().getResponse().getContentAsString();
         int status = result.andReturn().getResponse().getStatus();
-        
+        String response = result.andReturn().getResponse().getContentAsString();
+
+        User userResponse = om.readValue(response, User.class);
+
         assertThat(status).isEqualTo(200);
-        assertThat(response).contains("testuser");
-        assertThat(response).contains("test@example.com");
-        assertThat(response).contains("USER");
+        assertThat(userResponse.getId()).isEqualTo(3);
+        assertThat(userResponse.getUsername()).isEqualTo("testUser");
+        assertThat(userResponse.getEmail()).isEqualTo("test@metacoding.com");
+        assertThat(userResponse.getRoles()).isEqualTo("USER");
+
     }
 
-
-    @DisplayName("로그인 성공 테스트")
+    // 회원가입 실패
     @Test
-    void login_success_test() throws Exception {
-        // given - 회원가입 먼저 수행
+    public void join_fail_test() throws Exception {
+        // given
         AuthRequest.JoinDTO joinDTO = new AuthRequest.JoinDTO();
-        joinDTO.setUsername("testuser");
+        joinDTO.setUsername("testUser");
         joinDTO.setPassword("1234");
-        joinDTO.setEmail("test@example.com");
+        joinDTO.setEmail("test"); // 이메일 형식 잘못됨
         joinDTO.setRoles("USER");
 
-        String joinRequestBody = om.writeValueAsString(joinDTO);
-        mvc.perform(
+        //when
+        String requestBody = om.writeValueAsString(joinDTO);
+        ResultActions result = mvc.perform(
                 post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(joinRequestBody)
-        );
-
-        // 로그인 요청
-        AuthRequest.LoginDTO loginDTO = new AuthRequest.LoginDTO();
-        loginDTO.setUsername("testuser");
-        loginDTO.setPassword("1234");
-
-        String loginRequestBody = om.writeValueAsString(loginDTO);
-
-        // when
-        ResultActions result = mvc.perform(
-                post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(loginRequestBody)
+                        .content(requestBody)
         );
 
         // then
-        String response = result.andReturn().getResponse().getContentAsString();
-        int status = result.andReturn().getResponse().getStatus();
+        result.andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.msg").value("email:이메일 형식이 올바르지 않습니다"))
+            .andExpect(jsonPath("$.body").isEmpty());
+  
         
-        assertThat(status).isEqualTo(200);
-        assertThat(response).startsWith("Bearer ");
     }
 
-    @DisplayName("회원가입 실패 테스트 - 중복된 유저네임")
+    // 로그인 성공
     @Test
-    void join_fail_duplicate_username_test() throws Exception {
-        // given - 첫 번째 회원가입
-        AuthRequest.JoinDTO firstJoinDTO = new AuthRequest.JoinDTO();
-        firstJoinDTO.setUsername("testuser");
-        firstJoinDTO.setPassword("1234");
-        firstJoinDTO.setEmail("test1@example.com");
-        firstJoinDTO.setRoles("USER");
-
-        String firstRequestBody = om.writeValueAsString(firstJoinDTO);
-        mvc.perform(
-                post("/join")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(firstRequestBody)
-        );
-
-        // 두 번째 회원가입 (같은 유저네임)
-        AuthRequest.JoinDTO secondJoinDTO = new AuthRequest.JoinDTO();
-        secondJoinDTO.setUsername("testuser");
-        secondJoinDTO.setPassword("5678");
-        secondJoinDTO.setEmail("test2@example.com");
-        secondJoinDTO.setRoles("USER");
-
-        String secondRequestBody = om.writeValueAsString(secondJoinDTO);
-
-        // when
-        ResultActions result = mvc.perform(
-                post("/join")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(secondRequestBody)
-        );
-
-        // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        System.out.println("회원가입 실패 테스트 - 상태: " + status + ", 응답: " + response);
-        assertThat(status).isEqualTo(400);
-    }
-
-    @DisplayName("로그인 실패 테스트 - 잘못된 비밀번호")
-    @Test
-    void login_fail_wrong_password_test() throws Exception {
-        // given - 회원가입 먼저 수행
-        AuthRequest.JoinDTO joinDTO = new AuthRequest.JoinDTO();
-        joinDTO.setUsername("testuser");
-        joinDTO.setPassword("1234");
-        joinDTO.setEmail("test@example.com");
-        joinDTO.setRoles("USER");
-
-        String joinRequestBody = om.writeValueAsString(joinDTO);
-        mvc.perform(
-                post("/join")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(joinRequestBody)
-        );
-
-        // 잘못된 비밀번호로 로그인 시도
-        AuthRequest.LoginDTO loginDTO = new AuthRequest.LoginDTO();
-        loginDTO.setUsername("testuser");
-        loginDTO.setPassword("wrongpassword");
-
-        String loginRequestBody = om.writeValueAsString(loginDTO);
-
-        // when
-        ResultActions result = mvc.perform(
-                post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(loginRequestBody)
-        );
-
-        // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        System.out.println("로그인 실패 테스트 - 상태: " + status + ", 응답: " + response);
-        assertThat(status).isEqualTo(400);
-    }
-
-    @DisplayName("로그인 실패 테스트 - 존재하지 않는 유저")
-    @Test
-    void login_fail_user_not_found_test() throws Exception {
+    public void login_success_test() throws Exception {
         // given
         AuthRequest.LoginDTO loginDTO = new AuthRequest.LoginDTO();
-        loginDTO.setUsername("nonexistentuser");
+        loginDTO.setUsername("ssar");
         loginDTO.setPassword("1234");
+
+        String requestBody = om.writeValueAsString(loginDTO);
+
+        // when
+        ResultActions result = mvc.perform(
+                post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+        );
+
+        // then
+        String response = result.andReturn().getResponse().getContentAsString();
+        int status = result.andReturn().getResponse().getStatus();
+        
+        assertThat(status).isEqualTo(200);
+        assertThat(response).isNotEmpty();
+        assertThat(response).startsWith("Bearer "); // 토큰이 Bearer 로 시작하는지 검증
+    }
+
+    @Test
+    public void login_fail_test() throws Exception {
+        // given
+        AuthRequest.LoginDTO loginDTO = new AuthRequest.LoginDTO();
+        loginDTO.setUsername("ssar");
+        loginDTO.setPassword("1111");
 
         String loginRequestBody = om.writeValueAsString(loginDTO);
 
@@ -221,11 +148,10 @@ class AuthControllerTest {
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        System.out.println("존재하지 않는 유저 테스트 - 상태: " + status + ", 응답: " + response);
-        assertThat(status).isEqualTo(400);
+        result.andExpect(status().isUnauthorized()) // == 401
+            .andExpect(jsonPath("$.status").value(401))
+            .andExpect(jsonPath("$.msg").value("비밀번호가 일치하지 않습니다"))
+            .andExpect(jsonPath("$.body").isEmpty()); // body 가 null
     }
-
 
 }
