@@ -1,6 +1,7 @@
 package com.metacoding.springv2.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metacoding.springv2.MyRestDoc;
 import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.domain.board.Board;
 import com.metacoding.springv2.domain.board.BoardRequest;
@@ -9,10 +10,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,15 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
-@AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class BoardControllerTest {
-    @Autowired
-    private MockMvc mvc;
-
+class BoardControllerTest extends MyRestDoc {
     @Autowired
     private ObjectMapper om;
-
 
     private String accessToken;
     private String accessToken1;
