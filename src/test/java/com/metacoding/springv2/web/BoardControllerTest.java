@@ -1,7 +1,7 @@
 package com.metacoding.springv2.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.metacoding.springv2.domain.board.BoardRequest;
+import com.metacoding.springv2.domain.user.UserRequest;
 import com.metacoding.springv2.domain.user.User;
 import com.metacoding.springv2.core.util.JWTUtil;
 import org.junit.jupiter.api.Test;
@@ -17,9 +17,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.Matchers.hasSize;
+import com.metacoding.springv2.domain.board.Board;
+import com.metacoding.springv2.domain.user.User;
+import com.metacoding.springv2.domain.board.BoardRequest;
 
 @Transactional
 @AutoConfigureMockMvc
@@ -35,20 +44,29 @@ class BoardControllerTest {
     private WebApplicationContext context;
 
     private String accessToken;
+    private String accessToken1;
+
 
     @BeforeEach
     void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        
         // 테스트용 사용자 생성 및 JWT 토큰 생성
         User user = User.builder()
                 .id(1)
                 .username("ssar")
                 .password("1234")
-                .email("ssar@nate.com")
+                .email("ssar@metacoding.com")
                 .roles("USER")
                 .build();
-        accessToken = JWTUtil.create(user);
+        accessToken = JWTUtil.create(user);    
+
+        User user2 = User.builder()
+                .id(2)
+                .username("cos")
+                .password("1234")
+                .email("cos@metacoding.com")
+                .roles("ADMIN")
+                .build();
+        accessToken1 = JWTUtil.create(user2);
     }
 
     @AfterEach
@@ -59,218 +77,221 @@ class BoardControllerTest {
     // 게시글 목록 조회 성공
     @Test
     public void findAll_success_test() throws Exception {
+        //given
         // when
         ResultActions result = mvc.perform(
-                get("/api/boards")
+                MockMvcRequestBuilders.get("/api/boards")
+                        .header("Authorization", accessToken)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(5)))
+            .andExpect(jsonPath("$[0].id").value(1))
+            .andExpect(jsonPath("$[0].title").value("title 1"))
+            .andExpect(jsonPath("$[0].content").value("Spring Study 1"))
+            .andExpect(jsonPath("$[1].id").value(2))
+            .andExpect(jsonPath("$[1].title").value("title 2"))
+            .andExpect(jsonPath("$[1].content").value("Spring Study 2"));
+      }
 
-    // 게시글 목록 조회 실패 - 인증 필요
+    // 게시글 목록 조회 실패
     @Test
-    public void findAll_fail_unauthorized_test() throws Exception {
+    public void findAll_fail_test() throws Exception {
+        //given
+        String failToken = "Bearer 123123123123";
         // when
         ResultActions result = mvc.perform(
-                get("/api/boards")
-                        .header("Authorization", "Bearer invalid_token")
+                MockMvcRequestBuilders.get("/api/boards")
+                        .header("Authorization", failToken)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(401);
-        assertThat(response).isNotEmpty();
+        result.andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.status").value(401))
+            .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"));
+
     }
 
     // 게시글 작성 성공
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
     public void save_success_test() throws Exception {
         // given
-        BoardRequest.SaveDTO saveDTO = new BoardRequest.SaveDTO();
-        saveDTO.setTitle("테스트 게시글");
-        saveDTO.setContent("테스트 내용입니다.");
-
-        String requestBody = om.writeValueAsString(saveDTO);
+        Board board = Board.builder()
+                .title("test title")
+                .content("test content")
+                .user(User.builder().id(1).username("ssar")
+                    .password("1234")
+                    .email("ssar@metacoding.com")
+                    .roles("USER").build())
+                .build();
+        String requestBody = om.writeValueAsString(board);
 
         // when
         ResultActions result = mvc.perform(
-                post("/api/boards")
+                MockMvcRequestBuilders.post("/api/boards")
+                        .header("Authorization", accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(6))
+            .andExpect(jsonPath("$.title").value("test title"))
+            .andExpect(jsonPath("$.content").value("test content"));
+      }
 
-    // 게시글 작성 실패 - 인증 없음
+    // // 게시글 작성 실패
     @Test
-    public void save_fail_unauthorized_test() throws Exception {
+    public void save_fail_test() throws Exception {
         // given
-        BoardRequest.SaveDTO saveDTO = new BoardRequest.SaveDTO();
-        saveDTO.setTitle("테스트 게시글");
-        saveDTO.setContent("테스트 내용입니다.");
+        Board board = Board.builder()
+                .title("test title long long long long ======================")
+                .content("test content")
+                .user(User.builder().id(1).username("ssar")
+                    .password("1234")
+                    .email("ssar@metacoding.com")
+                    .roles("USER").build())
+                .build();
 
-        String requestBody = om.writeValueAsString(saveDTO);
+        String requestBody = om.writeValueAsString(board);
 
         // when
         ResultActions result = mvc.perform(
-                post("/api/boards")
+                MockMvcRequestBuilders.post("/api/boards")
+                        .header("Authorization", accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(401);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isBadRequest()) // 400
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.msg").value("title:제목은 1자 이상 30자 이하로 입력해주세요"))
+            .andExpect(jsonPath("$.body").isEmpty()); 
+      }
 
-    // 게시글 상세 조회 성공
+    // // 게시글 상세 조회 성공
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
     public void findById_success_test() throws Exception {
         // given
         Integer boardId = 1;
 
         // when
         ResultActions result = mvc.perform(
-                get("/api/boards/" + boardId)
+                MockMvcRequestBuilders.get("/api/boards/" + boardId)
+                        .header("Authorization", accessToken)
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.isBoardOwner").value(true))
+            .andExpect(jsonPath("$.boardId").value(boardId))
+            .andExpect(jsonPath("$.title").value("title 1"))
+            .andExpect(jsonPath("$.content").value("Spring Study 1"))
+            .andExpect(jsonPath("$.userId").value(1))
+            .andExpect(jsonPath("$.username").value("ssar"))
+            .andExpect(jsonPath("$.replies", hasSize(0)));
+      }
 
-    // 게시글 상세 조회 실패 - 존재하지 않는 게시글
+    // // 게시글 상세 조회 실패
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
-    public void findById_fail_not_found_test() throws Exception {
+    public void findById_fail_test() throws Exception {
         // given
-        Integer nonExistentBoardId = 999;
-
+        Integer id = 50;
         // when
         ResultActions result = mvc.perform(
-                get("/api/boards/" + nonExistentBoardId)
+                MockMvcRequestBuilders.get("/api/boards/" + id)
+                        .header("Authorization", accessToken)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(404);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.status").value(404))
+            .andExpect(jsonPath("$.msg").value("게시글을 찾을 수 없습니다"))
+            .andExpect(jsonPath("$.body").isEmpty());
+      }
 
-    // 게시글 수정 성공
+     // 게시글 수정 성공
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
     public void update_success_test() throws Exception {
         // given
         Integer boardId = 1;
         BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO();
-        updateDTO.setTitle("수정된 제목");
-        updateDTO.setContent("수정된 내용입니다.");
+        updateDTO.setTitle("update title");
+        updateDTO.setContent("update content");
 
         String requestBody = om.writeValueAsString(updateDTO);
-
         // when
         ResultActions result = mvc.perform(
-                put("/api/boards/" + boardId)
+                MockMvcRequestBuilders.put("/api/boards/" + boardId)
+                        .header("Authorization", accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(1))              
+            .andExpect(jsonPath("$.title").value("update title"))
+            .andExpect(jsonPath("$.content").value("update content"));
+      }
 
-    // 게시글 수정 실패 - 권한 없음
+    // 게시글 수정 실패
     @Test
-    @WithMockUser(username = "other", roles = "USER")
-    public void update_fail_forbidden_test() throws Exception {
+    public void update_fail_test() throws Exception {
         // given
         Integer boardId = 1;
         BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO();
-        updateDTO.setTitle("수정된 제목");
-        updateDTO.setContent("수정된 내용입니다.");
+        updateDTO.setTitle("update title");
+        updateDTO.setContent("update content");
 
         String requestBody = om.writeValueAsString(updateDTO);
 
         // when
         ResultActions result = mvc.perform(
-                put("/api/boards/" + boardId)
+                MockMvcRequestBuilders.put("/api/boards/" + boardId)
+                        .header("Authorization", accessToken1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(403);
-        assertThat(response).isNotEmpty();
+        result.andExpect(status().isForbidden()) 
+        .andExpect(jsonPath("$.status").value(403))
+        .andExpect(jsonPath("$.msg").value("게시글을 수정할 권한이 없습니다."))
+        .andExpect(jsonPath("$.body").isEmpty()); 
+  
     }
 
     // 게시글 삭제 성공
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
     public void deleteById_success_test() throws Exception {
         // given
         Integer boardId = 1;
 
         // when
         ResultActions result = mvc.perform(
-                delete("/api/boards/" + boardId)
+                MockMvcRequestBuilders.delete("/api/boards/" + boardId)
+                        .header("Authorization", accessToken)
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
+        result.andExpect(status().isOk())
+            .andExpect(content().string("게시글 삭제 완료"));
     }
 
-    // 게시글 삭제 실패 - 권한 없음
+    // 게시글 삭제 실패
     @Test
-    @WithMockUser(username = "other", roles = "USER")
-    public void deleteById_fail_forbidden_test() throws Exception {
+    public void deleteById_fail_test() throws Exception {
         // given
         Integer boardId = 1;
 
         // when
         ResultActions result = mvc.perform(
-                delete("/api/boards/" + boardId)
+                MockMvcRequestBuilders.delete("/api/boards/" + boardId)
+                        .header("Authorization", accessToken1)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(403);
-        assertThat(response).isNotEmpty();
+        result.andExpect(status().isForbidden()) 
+            .andExpect(jsonPath("$.status").value(403))
+            .andExpect(jsonPath("$.msg").value("게시글을 삭제할 권한이 없습니다."))
+            .andExpect(jsonPath("$.body").isEmpty());
     }
 }
