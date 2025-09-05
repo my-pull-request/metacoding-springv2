@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spring Boot API Documentation</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #34495e;
+        margin-top: 30px;
+        border-left: 4px solid #3498db;
+        padding-left: 15px;
+      }
+      h3 {
+        color: #2c3e50;
+        margin-top: 25px;
+      }
+      .endpoint {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px 0;
+      }
+      .method {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 12px;
+        margin-right: 10px;
+      }
+      .method.post {
+        background: #28a745;
+        color: white;
+      }
+      .method.get {
+        background: #007bff;
+        color: white;
+      }
+      .method.put {
+        background: #ffc107;
+        color: black;
+      }
+      .method.delete {
+        background: #dc3545;
+        color: white;
+      }
+      .url {
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      pre {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        margin: 10px 0;
+      }
+      .code-block {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+      }
+      .status-code {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-right: 5px;
+      }
+      .status-200 {
+        background: #d4edda;
+        color: #155724;
+      }
+      .status-400 {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .status-401 {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .status-403 {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .status-404 {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+      th,
+      td {
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background: #f8f9fa;
+        font-weight: bold;
+      }
+      .note {
+        background: #e7f3ff;
+        border-left: 4px solid #007bff;
+        padding: 15px;
+        margin: 15px 0;
+      }
+      .warning {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin: 15px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Spring Boot API Documentation</h1>
+
+      <div class="note">
+        <strong>📋 개요</strong><br />
+        이 문서는 Spring Boot 기반의 게시판 API에 대한 문서입니다.
+      </div>
+
+      <div class="warning">
+        <strong>🔧 빌드 및 실행</strong><br />
+        • 문서 생성: <code>./gradlew clean test asciidoctor copyRestDocs</code
+        ><br />
+        • JAR 빌드: <code>./gradlew bootJar</code><br />
+        • 애플리케이션 실행: <code>./gradlew bootRun</code><br />
+        • 문서 접근:
+        <code>http://localhost:8080/docs/api-documentation.html</code>
+      </div>
+
+      <h2>🌐 Base URL</h2>
+      <div class="code-block">
+        <code>http://localhost:8080</code>
+      </div>
+
+      <h2>🔐 인증</h2>
+      <div class="warning">
+        <strong>⚠️ 중요:</strong> JWT 토큰을 사용한 인증이 필요합니다.<br />
+        • 로그인 후 받은 JWT 토큰을 <code>Authorization</code> 헤더에 포함해야
+        합니다.<br />
+        • 형식: <code>Bearer {JWT_TOKEN}</code>
+      </div>
+
+      <h2>1️⃣ 인증 API</h2>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method post">POST</span>
+          <span class="url">/join</span>
+        </h3>
+        <p><strong>회원가입</strong> - 새로운 사용자를 등록합니다.</p>
+
+        <h4>Request Body</h4>
+        <pre><code>{
+  "username": "testUser",
+  "password": "1234",
+  "email": "test@metacoding.com",
+  "roles": "USER"
+}</code></pre>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>{
+  "id": 3,
+  "username": "testUser",
+  "email": "test@metacoding.com",
+  "roles": "USER"
+}</code></pre>
+
+        <p><span class="status-code status-400">400 Bad Request</span></p>
+        <pre><code>{
+  "status": 400,
+  "msg": "email:이메일 형식이 올바르지 않습니다",
+  "body": null
+}</code></pre>
+      </div>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method post">POST</span>
+          <span class="url">/login</span>
+        </h3>
+        <p><strong>로그인</strong> - 사용자 로그인을 수행합니다.</p>
+
+        <h4>Request Body</h4>
+        <pre><code>{
+  "username": "ssar",
+  "password": "1234"
+}</code></pre>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</code></pre>
+
+        <p><span class="status-code status-401">401 Unauthorized</span></p>
+        <pre><code>{
+  "status": 401,
+  "msg": "비밀번호가 일치하지 않습니다",
+  "body": null
+}</code></pre>
+      </div>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method get">GET</span>
+          <span class="url">/check-username</span>
+        </h3>
+        <p>
+          <strong>사용자명 중복 체크</strong> - 사용자명의 중복 여부를
+          확인합니다.
+        </p>
+
+        <h4>Query Parameters</h4>
+        <table>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>username</td>
+            <td>string</td>
+            <td>확인할 사용자명</td>
+          </tr>
+        </table>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>{
+  "available": true
+}</code></pre>
+      </div>
+
+      <h2>2️⃣ 사용자 API</h2>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method put">PUT</span>
+          <span class="url">/api/users</span>
+        </h3>
+        <p><strong>회원 정보 수정</strong> - 사용자 정보를 수정합니다.</p>
+
+        <h4>Headers</h4>
+        <ul>
+          <li><code>Authorization</code>: Bearer {JWT_TOKEN}</li>
+        </ul>
+
+        <h4>Request Body</h4>
+        <pre><code>{
+  "email": "update@metacoding.com",
+  "password": "12345"
+}</code></pre>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>{
+  "id": 1,
+  "username": "ssar",
+  "email": "update@metacoding.com",
+  "roles": "USER"
+}</code></pre>
+      </div>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method get">GET</span>
+          <span class="url">/api/users/{userId}</span>
+        </h3>
+        <p>
+          <strong>회원 정보 조회</strong> - 특정 사용자의 정보를 조회합니다.
+        </p>
+
+        <h4>Headers</h4>
+        <ul>
+          <li><code>Authorization</code>: Bearer {JWT_TOKEN}</li>
+        </ul>
+
+        <h4>Path Parameters</h4>
+        <table>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>userId</td>
+            <td>integer</td>
+            <td>사용자 ID</td>
+          </tr>
+        </table>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>{
+  "id": 1,
+  "username": "ssar",
+  "email": "ssar@metacoding.com",
+  "roles": "USER"
+}</code></pre>
+      </div>
+
+      <h2>3️⃣ 게시글 API</h2>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method get">GET</span>
+          <span class="url">/api/boards</span>
+        </h3>
+        <p>
+          <strong>게시글 목록 조회</strong> - 모든 게시글 목록을 조회합니다.
+        </p>
+
+        <h4>Headers</h4>
+        <ul>
+          <li><code>Authorization</code>: Bearer {JWT_TOKEN}</li>
+        </ul>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>[
+  {
+    "id": 1,
+    "title": "title 1",
+    "content": "Spring Study 1"
+  },
+  {
+    "id": 2,
+    "title": "title 2",
+    "content": "Spring Study 2"
+  }
+]</code></pre>
+      </div>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method post">POST</span>
+          <span class="url">/api/boards</span>
+        </h3>
+        <p><strong>게시글 작성</strong> - 새로운 게시글을 작성합니다.</p>
+
+        <h4>Headers</h4>
+        <ul>
+          <li><code>Authorization</code>: Bearer {JWT_TOKEN}</li>
+        </ul>
+
+        <h4>Request Body</h4>
+        <pre><code>{
+  "title": "test title",
+  "content": "test content"
+}</code></pre>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>{
+  "id": 6,
+  "title": "test title",
+  "content": "test content"
+}</code></pre>
+      </div>
+
+      <h2>4️⃣ 댓글 API</h2>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method post">POST</span>
+          <span class="url">/api/replies</span>
+        </h3>
+        <p><strong>댓글 작성</strong> - 새로운 댓글을 작성합니다.</p>
+
+        <h4>Headers</h4>
+        <ul>
+          <li><code>Authorization</code>: Bearer {JWT_TOKEN}</li>
+        </ul>
+
+        <h4>Request Body</h4>
+        <pre><code>{
+  "comment": "test comment",
+  "boardId": 1
+}</code></pre>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>{
+  "id": 1,
+  "comment": "test comment",
+  "userId": 1,
+  "username": "ssar",
+  "boardId": 1
+}</code></pre>
+      </div>
+
+      <h2>5️⃣ 관리자 API</h2>
+
+      <div class="endpoint">
+        <h3>
+          <span class="method delete">DELETE</span>
+          <span class="url">/api/admin/boards/{boardId}</span>
+        </h3>
+        <p>
+          <strong>관리자 게시글 삭제</strong> - 관리자가 게시글을 삭제합니다.
+        </p>
+
+        <h4>Headers</h4>
+        <ul>
+          <li>
+            <code>Authorization</code>: Bearer {JWT_TOKEN} (ADMIN 권한 필요)
+          </li>
+        </ul>
+
+        <h4>Path Parameters</h4>
+        <table>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>boardId</td>
+            <td>integer</td>
+            <td>게시글 ID</td>
+          </tr>
+        </table>
+
+        <h4>Response</h4>
+        <p><span class="status-code status-200">200 OK</span></p>
+        <pre><code>게시글 삭제 완료</code></pre>
+      </div>
+
+      <h2>❌ 에러 코드</h2>
+      <table>
+        <tr>
+          <th>코드</th>
+          <th>설명</th>
+        </tr>
+        <tr>
+          <td>400</td>
+          <td>Bad Request - 잘못된 요청</td>
+        </tr>
+        <tr>
+          <td>401</td>
+          <td>Unauthorized - 인증 실패</td>
+        </tr>
+        <tr>
+          <td>403</td>
+          <td>Forbidden - 권한 없음</td>
+        </tr>
+        <tr>
+          <td>404</td>
+          <td>Not Found - 리소스 없음</td>
+        </tr>
+        <tr>
+          <td>500</td>
+          <td>Internal Server Error - 서버 오류</td>
+        </tr>
+      </table>
+
+      <h2>💡 사용 예시</h2>
+
+      <h3>1. 회원가입 후 로그인</h3>
+      <pre><code># 1. 회원가입
+curl -X POST http://localhost:8080/join \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "testUser",
+    "password": "1234",
+    "email": "test@metacoding.com",
+    "roles": "USER"
+  }'
+
+# 2. 로그인
+curl -X POST http://localhost:8080/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "testUser",
+    "password": "1234"
+  }'</code></pre>
+
+      <h3>2. 게시글 작성</h3>
+      <pre><code>curl -X POST http://localhost:8080/api/boards \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "title": "새 게시글",
+    "content": "게시글 내용입니다."
+  }'</code></pre>
+
+      <div class="note">
+        <strong>📝 참고:</strong> 이 문서는 자동으로 생성되었습니다. API
+        변경사항이 있을 경우 문서도 함께 업데이트됩니다.
+      </div>
+    </div>
+  </body>
+</html>

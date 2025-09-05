@@ -1,11 +1,6 @@
 package com.metacoding.springv2.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.metacoding.springv2.MyRestDoc;
-import com.metacoding.springv2.core.util.JWTUtil;
-import com.metacoding.springv2.domain.board.Board;
-import com.metacoding.springv2.domain.board.BoardRequest;
-import com.metacoding.springv2.domain.user.User;
+import static org.hamcrest.Matchers.hasSize;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,12 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
-import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metacoding.springv2.MyRestDoc;
+import com.metacoding.springv2.core.util.JWTUtil;
+import com.metacoding.springv2.domain.board.Board;
+import com.metacoding.springv2.domain.board.BoardRequest;
+import com.metacoding.springv2.domain.user.User;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -75,7 +75,8 @@ class BoardControllerTest extends MyRestDoc {
             .andExpect(jsonPath("$[0].content").value("Spring Study 1"))
             .andExpect(jsonPath("$[1].id").value(2))
             .andExpect(jsonPath("$[1].title").value("title 2"))
-            .andExpect(jsonPath("$[1].content").value("Spring Study 2"));
+            .andExpect(jsonPath("$[1].content").value("Spring Study 2"))
+            .andDo(document.document());
       }
 
     // 게시글 목록 조회 실패

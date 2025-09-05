@@ -1,10 +1,5 @@
 package com.metacoding.springv2.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.metacoding.springv2.MyRestDoc;
-import com.metacoding.springv2.core.util.JWTUtil;
-import com.metacoding.springv2.domain.user.User;
-import com.metacoding.springv2.domain.user.UserRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,10 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metacoding.springv2.MyRestDoc;
+import com.metacoding.springv2.core.util.JWTUtil;
+import com.metacoding.springv2.domain.user.User;
+import com.metacoding.springv2.domain.user.UserRequest;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -68,7 +68,8 @@ class UserControllerTest extends MyRestDoc {
         .andExpect(jsonPath("$.id").value(1))
         .andExpect(jsonPath("$.username").value("ssar"))
         .andExpect(jsonPath("$.email").value("update@metacoding.com"))
-        .andExpect(jsonPath("$.roles").value("USER"));
+        .andExpect(jsonPath("$.roles").value("USER"))
+        .andDo(document.document());
       }
 
     // 회원수정 실패
@@ -93,7 +94,8 @@ class UserControllerTest extends MyRestDoc {
         // then
         result.andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.status").value(401))
-            .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"));
+            .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"))
+            .andDo(document.document());
       }
 
 
@@ -112,7 +114,8 @@ class UserControllerTest extends MyRestDoc {
         .andExpect(jsonPath("$.id").value(1))
         .andExpect(jsonPath("$.username").value("ssar"))
         .andExpect(jsonPath("$.email").value("ssar@metacoding.com"))
-        .andExpect(jsonPath("$.roles").value("USER"));   
+        .andExpect(jsonPath("$.roles").value("USER"))
+        .andDo(document.document());   
      }
 
 
@@ -128,6 +131,7 @@ class UserControllerTest extends MyRestDoc {
         );
         // then
         result.andExpect(jsonPath("$.status").value(403))
-        .andExpect(jsonPath("$.msg").value("접근할 수 없는 유저입니다"));
+        .andExpect(jsonPath("$.msg").value("접근할 수 없는 유저입니다"))
+        .andDo(document.document());
       }
 }
