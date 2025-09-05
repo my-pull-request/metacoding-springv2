@@ -18,8 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.startsWith;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 
 @Transactional
 @AutoConfigureMockMvc
@@ -35,20 +40,28 @@ class ReplyControllerTest {
     private WebApplicationContext context;
 
     private String accessToken;
+    private String accessToken1;
 
     @BeforeEach
     void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        
         // 테스트용 사용자 생성 및 JWT 토큰 생성
         User user = User.builder()
                 .id(1)
                 .username("ssar")
                 .password("1234")
-                .email("ssar@nate.com")
+                .email("ssar@metacoding.com")
                 .roles("USER")
                 .build();
-        accessToken = JWTUtil.create(user);
+        accessToken = JWTUtil.create(user);    
+
+        User user2 = User.builder()
+                .id(2)
+                .username("cos")
+                .password("1234")
+                .email("cos@metacoding.com")
+                .roles("ADMIN")
+                .build();
+        accessToken1 = JWTUtil.create(user2);
     }
 
     @AfterEach
@@ -58,93 +71,82 @@ class ReplyControllerTest {
 
     // 댓글 작성 성공
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
     public void save_success_test() throws Exception {
         // given
         ReplyRequest.SaveDTO saveDTO = new ReplyRequest.SaveDTO();
-        saveDTO.setComment("테스트 댓글입니다.");
+        saveDTO.setComment("test comment");
         saveDTO.setBoardId(1);
 
         String requestBody = om.writeValueAsString(saveDTO);
 
         // when
         ResultActions result = mvc.perform(
-                post("/api/replies")
+                MockMvcRequestBuilders.post("/api/replies")
+                        .header("Authorization", accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").isNumber())                        
+            .andExpect(jsonPath("$.comment").value(saveDTO.getComment()))  
+            .andExpect(jsonPath("$.userId").value(1))
+            .andExpect(jsonPath("$.username").value("ssar"))
+            .andExpect(jsonPath("$.boardId").value(1));
+      }
 
-    // 댓글 작성 실패 - 인증 없음
+    // 댓글 작성 실패
     @Test
-    public void save_fail_unauthorized_test() throws Exception {
+    public void save_fail_test() throws Exception {
         // given
         ReplyRequest.SaveDTO saveDTO = new ReplyRequest.SaveDTO();
-        saveDTO.setComment("테스트 댓글입니다.");
+        saveDTO.setComment(""); // 댓글 없음
         saveDTO.setBoardId(1);
 
         String requestBody = om.writeValueAsString(saveDTO);
 
         // when
         ResultActions result = mvc.perform(
-                post("/api/replies")
+                MockMvcRequestBuilders.post("/api/replies")
+                        .header("Authorization", accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(401);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isBadRequest()) 
+            .andExpect(jsonPath("$.status").value(400))
+            .andExpect(jsonPath("$.msg", startsWith("comment:")))
+            .andExpect(jsonPath("$.body").isEmpty());
+      }
 
     // 댓글 삭제 성공
     @Test
-    @WithMockUser(username = "ssar", roles = "USER")
     public void deleteById_success_test() throws Exception {
         // given
-        Integer replyId = 1;
-
+        Integer replyId = 4;
         // when
         ResultActions result = mvc.perform(
-                delete("/api/replies/" + replyId)
+                MockMvcRequestBuilders.delete("/api/replies/" + replyId)
+                        .header("Authorization", accessToken)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
+        result.andExpect(status().isOk());
     }
 
-    // 댓글 삭제 실패 - 권한 없음
+    // 댓글 삭제 실패
     @Test
-    @WithMockUser(username = "other", roles = "USER")
-    public void deleteById_fail_forbidden_test() throws Exception {
+    public void deleteById_fail_test() throws Exception {
         // given
         Integer replyId = 1;
-
         // when
         ResultActions result = mvc.perform(
-                delete("/api/replies/" + replyId)
+                MockMvcRequestBuilders.delete("/api/replies/" + replyId)
+                        .header("Authorization", accessToken)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(403);
-        assertThat(response).isNotEmpty();
+        result.andExpect(status().isForbidden()) 
+            .andExpect(jsonPath("$.status").value(403))
+            .andExpect(jsonPath("$.body").isEmpty());
     }
 }
 
