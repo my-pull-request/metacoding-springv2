@@ -1,21 +1,19 @@
 package com.metacoding.springv2.web;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
-import lombok.RequiredArgsConstructor;
-import com.metacoding.springv2.domain.user.UserService;
-import com.metacoding.springv2.domain.user.UserRequest;
 import com.metacoding.springv2.domain.auth.AuthResponse;
-import com.metacoding.springv2.core.util.JWTUtil;
-import org.springframework.web.bind.annotation.RequestHeader;
+import com.metacoding.springv2.domain.user.User;
+import com.metacoding.springv2.domain.user.UserRequest;
+import com.metacoding.springv2.domain.user.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.validation.Errors;
-import jakarta.validation.Valid;
-import com.metacoding.springv2.domain.user.User;
-import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController

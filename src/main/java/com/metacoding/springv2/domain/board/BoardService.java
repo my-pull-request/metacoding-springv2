@@ -1,18 +1,18 @@
 package com.metacoding.springv2.domain.board;
 
+import com.metacoding.springv2.core.handler.ex.Exception403;
+import com.metacoding.springv2.core.handler.ex.Exception404;
+import com.metacoding.springv2.domain.board.Board;
+import com.metacoding.springv2.domain.board.BoardRepository;
+import com.metacoding.springv2.domain.board.BoardRequest;
+import com.metacoding.springv2.domain.board.BoardResponse;
+import com.metacoding.springv2.domain.user.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import com.metacoding.springv2.domain.board.Board;
-import com.metacoding.springv2.domain.board.BoardRequest;
-import com.metacoding.springv2.domain.board.BoardRepository;
-import com.metacoding.springv2.domain.user.User;
-import com.metacoding.springv2.domain.board.BoardResponse;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import com.metacoding.springv2.core.handler.ex.Exception404;
-import com.metacoding.springv2.core.handler.ex.Exception403;
 
 @RequiredArgsConstructor
 @Service

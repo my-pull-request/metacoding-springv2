@@ -2,26 +2,19 @@ package com.metacoding.springv2.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metacoding.springv2.domain.auth.AuthRequest;
-import com.metacoding.springv2.domain.user.User;
-import com.metacoding.springv2.core.util.JWTUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @AutoConfigureMockMvc
 @Transactional
@@ -33,17 +26,6 @@ class AuthControllerTest {
     @Autowired
     private ObjectMapper om;
 
-    @Autowired
-    private WebApplicationContext context;
-
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     // 회원가입 성공
     @Test
@@ -65,16 +47,11 @@ class AuthControllerTest {
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-
-        User userResponse = om.readValue(response, User.class);
-
-        assertThat(status).isEqualTo(200);
-        assertThat(userResponse.getId()).isEqualTo(3);
-        assertThat(userResponse.getUsername()).isEqualTo("testUser");
-        assertThat(userResponse.getEmail()).isEqualTo("test@metacoding.com");
-        assertThat(userResponse.getRoles()).isEqualTo("USER");
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(3))
+            .andExpect(jsonPath("$.username").value("testUser"))
+            .andExpect(jsonPath("$.email").value("test@metacoding.com"))
+            .andExpect(jsonPath("$.roles").value("USER"));
 
     }
 
@@ -123,12 +100,9 @@ class AuthControllerTest {
         );
 
         // then
-        String response = result.andReturn().getResponse().getContentAsString();
-        int status = result.andReturn().getResponse().getStatus();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-        assertThat(response).startsWith("Bearer "); // 토큰이 Bearer 로 시작하는지 검증
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$").isNotEmpty())
+            .andExpect(jsonPath("$").value(org.hamcrest.Matchers.startsWith("Bearer ")));
     }
 
     // 로그인 실패
@@ -155,4 +129,35 @@ class AuthControllerTest {
             .andExpect(jsonPath("$.body").isEmpty()); // body 가 null
     }
 
+    @Test
+    public void checkUsername_success_test() throws Exception {
+        // given
+        String username = "testUser";
+
+        // when
+        ResultActions result = mvc.perform(
+                MockMvcRequestBuilders.get("/check-username")
+                        .param("username", username)
+        );
+
+        // then
+        result.andExpect(status().isOk())
+            .andExpect(jsonPath("$.available").value(true));
+    }
+
+    @Test
+    public void checkUsername_fail_test() throws Exception {
+        // given
+        String username = "ssar";
+        
+        // when
+        ResultActions result = mvc.perform(
+                MockMvcRequestBuilders.get("/check-username")
+                        .param("username", username)
+        );
+
+        // then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.available").value(false));
+    }
 }

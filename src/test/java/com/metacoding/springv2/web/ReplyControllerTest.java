@@ -1,29 +1,24 @@
 package com.metacoding.springv2.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.domain.reply.ReplyRequest;
 import com.metacoding.springv2.domain.user.User;
-import com.metacoding.springv2.core.util.JWTUtil;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.startsWith;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.hamcrest.Matchers.startsWith;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @Transactional
@@ -36,11 +31,7 @@ class ReplyControllerTest {
     @Autowired
     private ObjectMapper om;
 
-    @Autowired
-    private WebApplicationContext context;
-
     private String accessToken;
-    private String accessToken1;
 
     @BeforeEach
     void setUp() {
@@ -53,15 +44,6 @@ class ReplyControllerTest {
                 .roles("USER")
                 .build();
         accessToken = JWTUtil.create(user);    
-
-        User user2 = User.builder()
-                .id(2)
-                .username("cos")
-                .password("1234")
-                .email("cos@metacoding.com")
-                .roles("ADMIN")
-                .build();
-        accessToken1 = JWTUtil.create(user2);
     }
 
     @AfterEach

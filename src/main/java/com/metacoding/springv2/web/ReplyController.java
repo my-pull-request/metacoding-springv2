@@ -1,19 +1,19 @@
 package com.metacoding.springv2.web;
 
-import org.springframework.web.bind.annotation.RestController;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import com.metacoding.springv2.domain.reply.ReplyRequest;
 import com.metacoding.springv2.domain.reply.ReplyResponse;
-import com.metacoding.springv2.domain.user.User;
 import com.metacoding.springv2.domain.reply.ReplyService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.validation.Errors;
+import com.metacoding.springv2.domain.user.User;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
