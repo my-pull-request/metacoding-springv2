@@ -1,18 +1,18 @@
 package com.metacoding.springv2.web;
 
-import com.metacoding.springv2.MyRestDoc;
-import com.metacoding.springv2.core.util.JWTUtil;
-import com.metacoding.springv2.domain.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.metacoding.springv2.MyRestDoc;
+import com.metacoding.springv2.core.util.JWTUtil;
+import com.metacoding.springv2.domain.user.User;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -59,7 +59,7 @@ class AdminControllerTest extends MyRestDoc {
         );
         // then
         result.andExpect(status().isForbidden()) 
-            .andExpect(jsonPath("$.status").value(403));
+            .andExpect(jsonPath("$.status").value(403)).andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     // 관리자 게시글 삭제 성공
@@ -74,7 +74,7 @@ class AdminControllerTest extends MyRestDoc {
                         .header("Authorization", accessToken1)
         );
         // then
-        result.andExpect(status().isOk());
+        result.andExpect(status().isOk()).andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
 }

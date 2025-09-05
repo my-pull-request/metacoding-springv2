@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metacoding.springv2.MyRestDoc;
 import com.metacoding.springv2.core.util.JWTUtil;
@@ -76,7 +76,7 @@ class BoardControllerTest extends MyRestDoc {
             .andExpect(jsonPath("$[1].id").value(2))
             .andExpect(jsonPath("$[1].title").value("title 2"))
             .andExpect(jsonPath("$[1].content").value("Spring Study 2"))
-            .andDo(document.document());
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
     // 게시글 목록 조회 실패
@@ -92,7 +92,8 @@ class BoardControllerTest extends MyRestDoc {
         // then
         result.andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.status").value(401))
-            .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"));
+            .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"))
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
 
     }
 
@@ -122,7 +123,8 @@ class BoardControllerTest extends MyRestDoc {
         result.andExpect(status().isOk())
             .andExpect(jsonPath("$.id").value(6))
             .andExpect(jsonPath("$.title").value("test title"))
-            .andExpect(jsonPath("$.content").value("test content"));
+            .andExpect(jsonPath("$.content").value("test content"))
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
     // // 게시글 작성 실패
@@ -152,7 +154,8 @@ class BoardControllerTest extends MyRestDoc {
         result.andExpect(status().isBadRequest()) // 400
             .andExpect(jsonPath("$.status").value(400))
             .andExpect(jsonPath("$.msg").value("title:제목은 1자 이상 30자 이하로 입력해주세요"))
-            .andExpect(jsonPath("$.body").isEmpty()); 
+            .andExpect(jsonPath("$.body").isEmpty())
+            .andDo(MockMvcResultHandlers.print()).andDo(document); 
       }
 
     // // 게시글 상세 조회 성공
@@ -175,7 +178,8 @@ class BoardControllerTest extends MyRestDoc {
             .andExpect(jsonPath("$.content").value("Spring Study 1"))
             .andExpect(jsonPath("$.userId").value(1))
             .andExpect(jsonPath("$.username").value("ssar"))
-            .andExpect(jsonPath("$.replies", hasSize(0)));
+            .andExpect(jsonPath("$.replies", hasSize(0)))
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
     // // 게시글 상세 조회 실패
@@ -192,7 +196,8 @@ class BoardControllerTest extends MyRestDoc {
         result.andExpect(status().isNotFound())
             .andExpect(jsonPath("$.status").value(404))
             .andExpect(jsonPath("$.msg").value("게시글을 찾을 수 없습니다"))
-            .andExpect(jsonPath("$.body").isEmpty());
+            .andExpect(jsonPath("$.body").isEmpty())
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
      // 게시글 수정 성공
@@ -216,7 +221,8 @@ class BoardControllerTest extends MyRestDoc {
         result.andExpect(status().isOk())
             .andExpect(jsonPath("$.id").value(1))              
             .andExpect(jsonPath("$.title").value("update title"))
-            .andExpect(jsonPath("$.content").value("update content"));
+            .andExpect(jsonPath("$.content").value("update content"))
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
     // 게시글 수정 실패
@@ -241,7 +247,8 @@ class BoardControllerTest extends MyRestDoc {
         result.andExpect(status().isForbidden()) 
         .andExpect(jsonPath("$.status").value(403))
         .andExpect(jsonPath("$.msg").value("게시글을 수정할 권한이 없습니다."))
-        .andExpect(jsonPath("$.body").isEmpty()); 
+        .andExpect(jsonPath("$.body").isEmpty())
+        .andDo(MockMvcResultHandlers.print()).andDo(document); 
   
     }
 
@@ -259,7 +266,8 @@ class BoardControllerTest extends MyRestDoc {
 
         // then
         result.andExpect(status().isOk())
-            .andExpect(content().string("게시글 삭제 완료"));
+            .andExpect(content().string("게시글 삭제 완료"))
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     // 게시글 삭제 실패
@@ -277,6 +285,7 @@ class BoardControllerTest extends MyRestDoc {
         result.andExpect(status().isForbidden()) 
             .andExpect(jsonPath("$.status").value(403))
             .andExpect(jsonPath("$.msg").value("게시글을 삭제할 권한이 없습니다."))
-            .andExpect(jsonPath("$.body").isEmpty());
+            .andExpect(jsonPath("$.body").isEmpty())
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }

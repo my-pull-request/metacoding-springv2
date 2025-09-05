@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,7 +69,8 @@ class ReplyControllerTest extends MyRestDoc {
             .andExpect(jsonPath("$.comment").value(saveDTO.getComment()))  
             .andExpect(jsonPath("$.userId").value(1))
             .andExpect(jsonPath("$.username").value("ssar"))
-            .andExpect(jsonPath("$.boardId").value(1));
+            .andExpect(jsonPath("$.boardId").value(1))
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
     // 댓글 작성 실패
@@ -93,7 +94,8 @@ class ReplyControllerTest extends MyRestDoc {
         result.andExpect(status().isBadRequest()) 
             .andExpect(jsonPath("$.status").value(400))
             .andExpect(jsonPath("$.msg", startsWith("comment:")))
-            .andExpect(jsonPath("$.body").isEmpty());
+            .andExpect(jsonPath("$.body").isEmpty())
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
     // 댓글 삭제 성공
@@ -107,7 +109,8 @@ class ReplyControllerTest extends MyRestDoc {
                         .header("Authorization", accessToken)
         );
         // then
-        result.andExpect(status().isOk());
+        result.andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     // 댓글 삭제 실패
@@ -123,7 +126,8 @@ class ReplyControllerTest extends MyRestDoc {
         // then
         result.andExpect(status().isForbidden()) 
             .andExpect(jsonPath("$.status").value(403))
-            .andExpect(jsonPath("$.body").isEmpty());
+            .andExpect(jsonPath("$.body").isEmpty())
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }
 

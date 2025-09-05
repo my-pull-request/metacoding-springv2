@@ -4,11 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metacoding.springv2.MyRestDoc;
 import com.metacoding.springv2.domain.auth.AuthRequest;
-
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -50,21 +47,7 @@ class AuthControllerTest extends MyRestDoc {
             .andExpect(jsonPath("$.username").value("testUser"))
             .andExpect(jsonPath("$.email").value("test@metacoding.com"))
             .andExpect(jsonPath("$.roles").value("USER"))
-            .andDo(document.document(
-                requestFields(
-                    fieldWithPath("username").description("사용자명"),
-                    fieldWithPath("password").description("비밀번호"),
-                    fieldWithPath("email").description("이메일"),
-                    fieldWithPath("roles").description("역할")
-                ),
-                responseFields(
-                    fieldWithPath("id").description("사용자 ID"),
-                    fieldWithPath("username").description("사용자명"),
-                    fieldWithPath("email").description("이메일"),
-                    fieldWithPath("roles").description("역할")
-                )
-            ));
-
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     // 회원가입 실패
@@ -90,7 +73,7 @@ class AuthControllerTest extends MyRestDoc {
             .andExpect(jsonPath("$.status").value(400))
             .andExpect(jsonPath("$.msg").value("email:이메일 형식이 올바르지 않습니다"))
             .andExpect(jsonPath("$.body").isEmpty())
-            .andDo(document.document());
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
   
         
     }
@@ -116,7 +99,7 @@ class AuthControllerTest extends MyRestDoc {
         result.andExpect(status().isOk())
             .andExpect(jsonPath("$").isNotEmpty())
             .andExpect(jsonPath("$").value(org.hamcrest.Matchers.startsWith("Bearer ")))
-            .andDo(document.document());
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     // 로그인 실패
@@ -141,7 +124,7 @@ class AuthControllerTest extends MyRestDoc {
             .andExpect(jsonPath("$.status").value(401))
             .andExpect(jsonPath("$.msg").value("비밀번호가 일치하지 않습니다"))
             .andExpect(jsonPath("$.body").isEmpty()) // body 가 null
-            .andDo(document.document());
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -158,7 +141,7 @@ class AuthControllerTest extends MyRestDoc {
         // then
         result.andExpect(status().isOk())
             .andExpect(jsonPath("$.available").value(true))
-            .andDo(document.document());
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -175,6 +158,6 @@ class AuthControllerTest extends MyRestDoc {
         // then
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.available").value(false))
-                .andDo(document.document());
+                    .andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metacoding.springv2.MyRestDoc;
 import com.metacoding.springv2.core.util.JWTUtil;
@@ -69,7 +69,7 @@ class UserControllerTest extends MyRestDoc {
         .andExpect(jsonPath("$.username").value("ssar"))
         .andExpect(jsonPath("$.email").value("update@metacoding.com"))
         .andExpect(jsonPath("$.roles").value("USER"))
-        .andDo(document.document());
+        .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
     // 회원수정 실패
@@ -95,7 +95,7 @@ class UserControllerTest extends MyRestDoc {
         result.andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.status").value(401))
             .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"))
-            .andDo(document.document());
+            .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 
 
@@ -115,7 +115,7 @@ class UserControllerTest extends MyRestDoc {
         .andExpect(jsonPath("$.username").value("ssar"))
         .andExpect(jsonPath("$.email").value("ssar@metacoding.com"))
         .andExpect(jsonPath("$.roles").value("USER"))
-        .andDo(document.document());   
+        .andDo(MockMvcResultHandlers.print()).andDo(document);   
      }
 
 
@@ -132,6 +132,6 @@ class UserControllerTest extends MyRestDoc {
         // then
         result.andExpect(jsonPath("$.status").value(403))
         .andExpect(jsonPath("$.msg").value("접근할 수 없는 유저입니다"))
-        .andDo(document.document());
+        .andDo(MockMvcResultHandlers.print()).andDo(document);
       }
 }

@@ -1,0 +1,267 @@
+= Metacoding API 문서서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-request-title: Example request
+:operation-http-response-title: Example response
+
+
+==== 회원가입
+
+===== POST /join
+
+새로운 사용자를 등록합니다.
+
+include::{snippets}/auth-controller-test/join_success_test/http-request.adoc[]
+
+include::{snippets}/auth-controller-test/join_success_test/http-response.adoc[]
+
+===== POST /join (실패)
+
+잘못된 이메일 형식으로 회원가입을 시도합니다.
+
+include::{snippets}/auth-controller-test/join_fail_test/http-request.adoc[]
+
+include::{snippets}/auth-controller-test/join_fail_test/http-response.adoc[]
+
+==== 로그인
+
+===== POST /login
+
+사용자 로그인을 처리합니다.
+
+include::{snippets}/auth-controller-test/login_success_test/http-request.adoc[]
+
+include::{snippets}/auth-controller-test/login_success_test/http-response.adoc[]
+
+===== POST /login (실패)
+
+잘못된 비밀번호로 로그인을 시도합니다.
+
+include::{snippets}/auth-controller-test/login_fail_test/http-request.adoc[]
+
+include::{snippets}/auth-controller-test/login_fail_test/http-response.adoc[]
+
+==== 사용자명 중복 확인
+
+===== GET /check-username
+
+사용자명 중복 확인을 수행합니다.
+
+include::{snippets}/auth-controller-test/check-username_success_test/http-request.adoc[]
+
+include::{snippets}/auth-controller-test/check-username_success_test/http-response.adoc[]
+
+===== GET /check-username (중복)
+
+이미 존재하는 사용자명을 확인합니다.
+
+include::{snippets}/auth-controller-test/check-username_fail_test/http-request.adoc[]
+
+include::{snippets}/auth-controller-test/check-username_fail_test/http-response.adoc[]
+
+=== User API
+
+==== 사용자 정보 조회
+
+===== GET /api/users/{id}
+
+특정 사용자 정보를 조회합니다.
+
+include::{snippets}/user-controller-test/get-user_success_test/http-request.adoc[]
+
+include::{snippets}/user-controller-test/get-user_success_test/http-response.adoc[]
+
+===== GET /api/users/{id} (권한 없음)
+
+권한이 없는 사용자 정보를 조회합니다.
+
+include::{snippets}/user-controller-test/get-user_fail_test/http-request.adoc[]
+
+include::{snippets}/user-controller-test/get-user_fail_test/http-response.adoc[]
+
+==== 사용자 정보 수정
+
+===== PUT /api/users
+
+사용자 정보를 수정합니다.
+
+include::{snippets}/user-controller-test/update-user_success_test/http-request.adoc[]
+
+include::{snippets}/user-controller-test/update-user_success_test/http-response.adoc[]
+
+===== PUT /api/users (실패)
+
+잘못된 토큰으로 사용자 정보를 수정합니다.
+
+include::{snippets}/user-controller-test/update-user_fail_test/http-request.adoc[]
+
+include::{snippets}/user-controller-test/update-user_fail_test/http-response.adoc[]
+
+=== Board API
+
+==== 게시글 목록 조회
+
+===== GET /api/boards
+
+게시글 목록을 조회합니다.
+
+include::{snippets}/board-controller-test/find-all_success_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/find-all_success_test/http-response.adoc[]
+
+===== GET /api/boards (인증 실패)
+
+잘못된 토큰으로 게시글 목록을 조회합니다.
+
+include::{snippets}/board-controller-test/find-all_fail_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/find-all_fail_test/http-response.adoc[]
+
+==== 게시글 작성
+
+===== POST /api/boards
+
+새로운 게시글을 작성합니다.
+
+include::{snippets}/board-controller-test/save_success_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/save_success_test/http-response.adoc[]
+
+===== POST /api/boards (실패)
+
+제목이 너무 긴 게시글을 작성합니다.
+
+include::{snippets}/board-controller-test/save_fail_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/save_fail_test/http-response.adoc[]
+
+==== 게시글 상세 조회
+
+===== GET /api/boards/{id}
+
+특정 게시글의 상세 정보를 조회합니다.
+
+include::{snippets}/board-controller-test/find-by-id_success_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/find-by-id_success_test/http-response.adoc[]
+
+===== GET /api/boards/{id} (존재하지 않음)
+
+존재하지 않는 게시글을 조회합니다.
+
+include::{snippets}/board-controller-test/find-by-id_fail_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/find-by-id_fail_test/http-response.adoc[]
+
+==== 게시글 수정
+
+===== PUT /api/boards/{id}
+
+게시글을 수정합니다.
+
+include::{snippets}/board-controller-test/update_success_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/update_success_test/http-response.adoc[]
+
+===== PUT /api/boards/{id} (권한 없음)
+
+권한이 없는 게시글을 수정합니다.
+
+include::{snippets}/board-controller-test/update_fail_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/update_fail_test/http-response.adoc[]
+
+==== 게시글 삭제
+
+===== DELETE /api/boards/{id}
+
+게시글을 삭제합니다.
+
+include::{snippets}/board-controller-test/delete-by-id_success_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/delete-by-id_success_test/http-response.adoc[]
+
+===== DELETE /api/boards/{id} (권한 없음)
+
+권한이 없는 게시글을 삭제합니다.
+
+include::{snippets}/board-controller-test/delete-by-id_fail_test/http-request.adoc[]
+
+include::{snippets}/board-controller-test/delete-by-id_fail_test/http-response.adoc[]
+
+=== Reply API
+
+==== 댓글 작성
+
+===== POST /api/replies
+
+새로운 댓글을 작성합니다.
+
+include::{snippets}/reply-controller-test/save_success_test/http-request.adoc[]
+
+include::{snippets}/reply-controller-test/save_success_test/http-response.adoc[]
+
+===== POST /api/replies (실패)
+
+빈 댓글을 작성합니다.
+
+include::{snippets}/reply-controller-test/save_fail_test/http-request.adoc[]
+
+include::{snippets}/reply-controller-test/save_fail_test/http-response.adoc[]
+
+==== 댓글 삭제
+
+===== DELETE /api/replies/{id}
+
+댓글을 삭제합니다.
+
+include::{snippets}/reply-controller-test/delete-by-id_success_test/http-request.adoc[]
+
+include::{snippets}/reply-controller-test/delete-by-id_success_test/http-response.adoc[]
+
+===== DELETE /api/replies/{id} (권한 없음)
+
+권한이 없는 댓글을 삭제합니다.
+
+include::{snippets}/reply-controller-test/delete-by-id_fail_test/http-request.adoc[]
+
+include::{snippets}/reply-controller-test/delete-by-id_fail_test/http-response.adoc[]
+
+=== Admin API
+
+==== 관리자 게시글 삭제
+
+===== DELETE /api/admin/boards/{id}
+
+관리자가 게시글을 삭제합니다.
+
+include::{snippets}/admin-controller-test/delete-by-id_success_test/http-request.adoc[]
+
+include::{snippets}/admin-controller-test/delete-by-id_success_test/http-response.adoc[]
+
+===== DELETE /api/admin/boards/{id} (권한 없음)
+
+일반 사용자가 관리자 기능을 사용합니다.
+
+include::{snippets}/admin-controller-test/delete-by-id_fail_test/http-request.adoc[]
+
+include::{snippets}/admin-controller-test/delete-by-id_fail_test/http-response.adoc[]
+
+== Error Codes
+
+=== 400 Bad Request
+잘못된 요청 데이터
+
+=== 401 Unauthorized
+인증이 필요함
+
+=== 403 Forbidden
+권한이 없음
+
+=== 404 Not Found
+리소스를 찾을 수 없음
