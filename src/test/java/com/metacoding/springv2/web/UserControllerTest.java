@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,16 +17,20 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @Transactional
-@AutoConfigureWebMvc
+@AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class UserControllerTest {
-
+    @Autowired
     private MockMvc mvc;
 
     @Autowired
@@ -40,17 +43,15 @@ class UserControllerTest {
 
     @BeforeEach
     void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        
         // 테스트용 사용자 생성 및 JWT 토큰 생성
         User user = User.builder()
                 .id(1)
                 .username("ssar")
                 .password("1234")
-                .email("ssar@nate.com")
+                .email("ssar@metacoding.com")
                 .roles("USER")
                 .build();
-        accessToken = JWTUtil.create(user);
+        accessToken = JWTUtil.create(user);    
     }
 
     @AfterEach
@@ -60,58 +61,54 @@ class UserControllerTest {
 
     // 회원수정 성공
     @Test
-   public void updateUser_success_test() throws Exception {
+    public void updateUser_success_test() throws Exception {
         // given
         UserRequest.UpdateDTO updateDTO = new UserRequest.UpdateDTO();
-        updateDTO.setEmail("updated@metacoding.com");
-        updateDTO.setPassword("newpassword123");
+        updateDTO.setEmail("update@metacoding.com");
+        updateDTO.setPassword("12345");
 
         String requestBody = om.writeValueAsString(updateDTO);
 
         // when
         ResultActions result = mvc.perform(
-                put("/api/users")
+            MockMvcRequestBuilders.put("/api/users")
+                        .header("Authorization", accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        System.out.println("updateUser_success_test - Status: " + status);
-        System.out.println("updateUser_success_test - Response: " + response);
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(1))
+        .andExpect(jsonPath("$.username").value("ssar"))
+        .andExpect(jsonPath("$.email").value("update@metacoding.com"))
+        .andExpect(jsonPath("$.roles").value("USER"));
+      }
 
     // 회원수정 실패
     @Test
     public void updateUser_fail_test() throws Exception {
         // given
         UserRequest.UpdateDTO updateDTO = new UserRequest.UpdateDTO();
-        updateDTO.setEmail("updated@metacoding.com");
-        updateDTO.setPassword("newpassword123");
+        updateDTO.setEmail("update@metacoding.com");
+        updateDTO.setPassword("12345");
 
         String requestBody = om.writeValueAsString(updateDTO);
-        String token = "Bearer 131231232131"; // 잘못된 토큰
+        String failToken = "Bearer 131231232131"; // 잘못된 토큰
 
         // when
         ResultActions result = mvc.perform(
-                put("/api/users")
-                        .header("Authorization", token)
+                MockMvcRequestBuilders.put("/api/users")
+                        .header("Authorization", failToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
 
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(401);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.status").value(401))
+            .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"));
+      }
 
 
     // 회원조회 성공
@@ -119,57 +116,32 @@ class UserControllerTest {
     public void getUser_success_test() throws Exception {
         // given
         Integer userId = 1;
-
         // when
         ResultActions result = mvc.perform(
-                get("/api/users/" + userId)
+                MockMvcRequestBuilders.get("/api/users/" + userId)
+                        .header("Authorization", accessToken)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(1))
+        .andExpect(jsonPath("$.username").value("ssar"))
+        .andExpect(jsonPath("$.email").value("ssar@metacoding.com"))
+        .andExpect(jsonPath("$.roles").value("USER"));   
+     }
 
-    // 회원조회 실패 - 잘못된 토큰
+
+    // 회원조회 실패
     @Test
-    public void getUser_fail_invalid_token_test() throws Exception {
+    public void getUser_fail_test() throws Exception {
         // given
-        Integer userId = 1;
-        String invalidToken = "Bearer invalid_token";
-
+        Integer id = 20;
         // when
         ResultActions result = mvc.perform(
-                get("/api/users/" + userId)
-                        .header("Authorization", invalidToken)
+                MockMvcRequestBuilders.get("/api/users/" + id)
+                        .header("Authorization", accessToken)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(401);
-        assertThat(response).isNotEmpty();
-    }
-
-    // 회원조회 실패 - 존재하지 않는 사용자
-    @Test
-    public void getUser_fail_user_not_found_test() throws Exception {
-        // given
-        Integer nonExistentUserId = 999;
-
-        // when
-        ResultActions result = mvc.perform(
-                get("/api/users/" + nonExistentUserId)
-        );
-
-        // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(404);
-        assertThat(response).isNotEmpty();
-    }
+        result.andExpect(jsonPath("$.status").value(403))
+        .andExpect(jsonPath("$.msg").value("접근할 수 없는 유저입니다"));
+      }
 }

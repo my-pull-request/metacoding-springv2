@@ -6,7 +6,6 @@ import com.metacoding.springv2.domain.user.User;
 import com.metacoding.springv2.core.util.JWTUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -21,12 +20,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+@AutoConfigureMockMvc
 @Transactional
-@AutoConfigureWebMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class AuthControllerTest {
-
+    @Autowired
     private MockMvc mvc;
 
     @Autowired
@@ -35,15 +36,14 @@ class AuthControllerTest {
     @Autowired
     private WebApplicationContext context;
 
+
     @BeforeEach
     void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @AfterEach
     void tearDown() {
     }
-
 
     // 회원가입 성공
     @Test
@@ -59,7 +59,7 @@ class AuthControllerTest {
 
         // when
         ResultActions result = mvc.perform(
-                post("/join")
+                MockMvcRequestBuilders.post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
@@ -91,7 +91,7 @@ class AuthControllerTest {
         //when
         String requestBody = om.writeValueAsString(joinDTO);
         ResultActions result = mvc.perform(
-                post("/join")
+                MockMvcRequestBuilders.post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
@@ -117,7 +117,7 @@ class AuthControllerTest {
 
         // when
         ResultActions result = mvc.perform(
-                post("/login")
+                MockMvcRequestBuilders.post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
         );
@@ -131,6 +131,7 @@ class AuthControllerTest {
         assertThat(response).startsWith("Bearer "); // 토큰이 Bearer 로 시작하는지 검증
     }
 
+    // 로그인 실패
     @Test
     public void login_fail_test() throws Exception {
         // given
@@ -142,7 +143,7 @@ class AuthControllerTest {
 
         // when
         ResultActions result = mvc.perform(
-                post("/login")
+                MockMvcRequestBuilders.post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginRequestBody)
         );
