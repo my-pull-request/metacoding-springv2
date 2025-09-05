@@ -1,8 +1,8 @@
 package com.metacoding.springv2.web;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import com.metacoding.springv2.domain.auth.AuthResponse;
 import com.metacoding.springv2.domain.auth.AuthRequest;
+import com.metacoding.springv2.domain.auth.AuthResponse;
 import com.metacoding.springv2.domain.user.UserService;
 import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.validation.Errors;
 import jakarta.validation.Valid;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class AuthController {
 
     @GetMapping("/check-username")
     public ResponseEntity<?> getUsername(@RequestParam String username) {
-        return ResponseEntity.ok(userService.회원중복체크(username));
+        Map<String, Object> result = userService.회원중복체크(username);
+        return ResponseEntity.ok(result);
     }
 }

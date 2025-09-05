@@ -13,6 +13,8 @@ import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.core.handler.ex.Exception401;
 import com.metacoding.springv2.core.handler.ex.Exception403;
 import com.metacoding.springv2.core.handler.ex.Exception404;
+import java.util.Map;
+import java.util.HashMap;
 
 @RequiredArgsConstructor
 @Service
@@ -54,11 +56,14 @@ public class UserService {
         return new AuthResponse.DTO(user);
     }
 
-    public String 회원중복체크(String username) {
+    public Map<String, Object> 회원중복체크(String username) {
+        Map<String, Object> dto = new HashMap<>();
+
         if(!userRepository.findByUsername(username).isPresent()){
-            return "사용 가능한 유저네임입니다.";
+            dto.put("available", true);
         }else{
-            return "이미 존재하는 유저네임입니다.";
+            dto.put("available", false);
         }
+        return dto;
     }
 }
