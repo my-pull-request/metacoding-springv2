@@ -12,8 +12,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.security.test.context.support.WithMockUser;
+import com.metacoding.springv2.core.util.JWTUtil;
+import com.metacoding.springv2.domain.user.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
@@ -24,56 +30,68 @@ class AdminControllerTest {
     private MockMvc mvc;
 
     @Autowired
+    private ObjectMapper om;
+
+    @Autowired
     private WebApplicationContext context;
+
+    private String accessToken;
+    private String accessToken1;
+
 
     @BeforeEach
     void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        // 테스트용 사용자 생성 및 JWT 토큰 생성
+        User user = User.builder()
+                .id(1)
+                .username("ssar")
+                .password("1234")
+                .email("ssar@metacoding.com")
+                .roles("USER")
+                .build();
+        accessToken = JWTUtil.create(user);    
+
+        User user2 = User.builder()
+                .id(2)
+                .username("cos")
+                .password("1234")
+                .email("cos@metacoding.com")
+                .roles("ADMIN")
+                .build();
+        accessToken1 = JWTUtil.create(user2);
     }
 
-    @AfterEach
-    void tearDown() {
-        // 테스트 후 정리 작업 (필요시)
+    
+    // 관리자 게시글 삭제 실패
+    @Test
+    public void deleteById_fail_test() throws Exception {
+        // given
+        Integer boardId = 1;
+
+        // when
+        ResultActions result = mvc.perform(
+                MockMvcRequestBuilders.delete("/api/admin/boards/" + boardId)
+                        .header("Authorization", accessToken)
+        );
+        // then
+        result.andExpect(status().isForbidden()) 
+            .andExpect(jsonPath("$.status").value(403));
     }
 
     // 관리자 게시글 삭제 성공
     @Test
-    @WithMockUser(username = "admin", roles = "ADMIN")
-    public void deleteBoard_success_test() throws Exception {
+    public void deleteById_success_test() throws Exception {
         // given
         Integer boardId = 1;
-
+        
         // when
         ResultActions result = mvc.perform(
-                delete("/api/admin/boards/" + boardId)
+                MockMvcRequestBuilders.delete("/api/admin/boards/" + boardId)
+                        .header("Authorization", accessToken1)
         );
-
         // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(200);
-        assertThat(response).isNotEmpty();
+        result.andExpect(status().isOk());
     }
 
-    // 관리자 게시글 삭제 실패 - 권한 없음 (USER 역할)
-    @Test
-    @WithMockUser(username = "user", roles = "USER")
-    public void deleteBoard_fail_forbidden_test() throws Exception {
-        // given
-        Integer boardId = 1;
-
-        // when
-        ResultActions result = mvc.perform(
-                delete("/api/admin/boards/" + boardId)
-        );
-
-        // then
-        int status = result.andReturn().getResponse().getStatus();
-        String response = result.andReturn().getResponse().getContentAsString();
-        
-        assertThat(status).isEqualTo(403);
-        assertThat(response).isNotEmpty();
-    }
 }
 
