@@ -6,9 +6,6 @@ import com.metacoding.springv2.core.handler.ex.Exception404;
 import com.metacoding.springv2.core.util.JWTUtil;
 import com.metacoding.springv2.domain.auth.AuthRequest;
 import com.metacoding.springv2.domain.auth.AuthResponse;
-import com.metacoding.springv2.domain.user.User;
-import com.metacoding.springv2.domain.user.UserRepository;
-import com.metacoding.springv2.domain.user.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+@Transactional(readOnly = true) // 변경감지 생략
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -26,45 +24,45 @@ public class UserService {
 
     @Transactional
     public AuthResponse.DTO 회원가입(AuthRequest.JoinDTO requestDTO) {
-        if(userRepository.findByUsername(requestDTO.getUsername()).isPresent())
+        if (userRepository.findByUsername(requestDTO.getUsername()).isPresent())
             throw new Exception401("이미 존재하는 유저네임입니다");
         String encPassword = bCryptPasswordEncoder.encode(requestDTO.getPassword());
-        User user = requestDTO.toEntity(encPassword);
-        userRepository.save(user);
-        return new AuthResponse.DTO(user);
+        User savedUser = userRepository.save(requestDTO.toEntity(encPassword));
+        return new AuthResponse.DTO(savedUser);
     }
 
     public String 로그인(AuthRequest.LoginDTO requestDTO) {
-        User user = userRepository.findByUsername(requestDTO.getUsername()).orElseThrow(() -> new Exception404("유저네임을 찾을 수 없습니다"));
-        if (!bCryptPasswordEncoder.matches(requestDTO.getPassword(), user.getPassword()))
-            throw new Exception401("비밀번호가 일치하지 않습니다");
-        String jwtToken = JWTUtil.create(user);
-        return jwtToken;
+        User findUser = userRepository.findByUsername(requestDTO.getUsername())
+                .orElseThrow(() -> new Exception404("유저네임 혹은 비밀번호가 일치하지 않습니다"));
+        if (!bCryptPasswordEncoder.matches(requestDTO.getPassword(), findUser.getPassword()))
+            throw new Exception401("유저네임 혹은 비밀번호가 일치하지 않습니다");
+        return JWTUtil.create(findUser);
     }
 
-    public AuthResponse.DTO 회원조회(Integer userId, Integer tokenUserId) {
-        if(tokenUserId != userId){
-            throw new Exception403("접근할 수 없는 유저입니다");
-        }
-        User user = userRepository.findById(userId).orElseThrow(() -> new Exception404("유저네임을 찾을 수 없습니다"));
-        return new AuthResponse.DTO(user);
+    public AuthResponse.DTO 회원조회(Integer userId, Integer sessionUserId) {
+        if (userId.equals(sessionUserId)) throw new Exception403("조회 권한이 없습니다");
+        User findUser = userRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("회원을 찾을 수 없습니다"));
+        return new AuthResponse.DTO(findUser);
     }
 
     @Transactional
-    public AuthResponse.DTO 회원수정(UserRequest.UpdateDTO requestDTO, String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new Exception404("유저네임을 찾을 수 없습니다"));
-        user.update(requestDTO.getEmail(), bCryptPasswordEncoder.encode(requestDTO.getPassword()));
-        return new AuthResponse.DTO(user);
+    public AuthResponse.DTO 회원수정(UserRequest.UpdateDTO requestDTO, Integer sessionUserId) {
+        User findUser = userRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("회원을 찾을 수 없습니다"));
+        String encPassword = bCryptPasswordEncoder.encode(requestDTO.getPassword());
+        findUser.update(requestDTO.getEmail(), encPassword);
+        return new AuthResponse.DTO(findUser);
     }
 
-    public Map<String, Object> 회원중복체크(String username) {
-        Map<String, Object> dto = new HashMap<>();
+    public Map<String, Object> 유저네임중복체크(String username) {
+        Map<String, Object> mapDTO = new HashMap<>();
 
-        if(!userRepository.findByUsername(username).isPresent()){
-            dto.put("available", true);
-        }else{
-            dto.put("available", false);
+        if (userRepository.findByUsername(username).isPresent()) {
+            mapDTO.put("available", false);
+        } else {
+            mapDTO.put("available", true);
         }
-        return dto;
+        return mapDTO;
     }
 }

@@ -1,20 +1,21 @@
 package com.metacoding.springv2.core.util;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Slf4j
 public class RespFilter {
     private static ObjectMapper om = new ObjectMapper();
 
-    public static void writeResponse(HttpServletResponse response, int status, String msg) throws IOException {
+    public static void fail(HttpServletResponse response, int status, String msg) throws IOException {
         response.setStatus(status);
         response.setContentType("application/json;charset=utf-8");
-        
+
         Resp<?> resp = new Resp<>(status, msg, null);
         String responseBody = null;
         try {
