@@ -1,13 +1,13 @@
 package com.metacoding.springv2.core.handler;
 
 
+import com.metacoding.springv2.core.handler.ex.Exception400;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import com.metacoding.springv2.core.handler.ex.Exception400;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ public class GlobalValidationHandler {
         for (Object arg : args) { // 매개변수 개수만큼 반복 (어노테이션은 제외)
 
             if (arg instanceof Errors) {
-                System.out.println("에러 400 처리 필요함!!");
                 Errors errors = (Errors) arg;
 
                 // 에러가 존재한다면!!
