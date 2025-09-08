@@ -24,17 +24,17 @@ public class UserService {
 
     @Transactional
     public AuthResponse.DTO 회원가입(AuthRequest.JoinDTO requestDTO) {
-        if (userRepository.findByUsername(requestDTO.getUsername()).isPresent())
+        if (userRepository.findByUsername(requestDTO.username()).isPresent())
             throw new Exception401("이미 존재하는 유저네임입니다");
-        String encPassword = bCryptPasswordEncoder.encode(requestDTO.getPassword());
+        String encPassword = bCryptPasswordEncoder.encode(requestDTO.password());
         User savedUser = userRepository.save(requestDTO.toEntity(encPassword));
         return new AuthResponse.DTO(savedUser);
     }
 
     public String 로그인(AuthRequest.LoginDTO requestDTO) {
-        User findUser = userRepository.findByUsername(requestDTO.getUsername())
+        User findUser = userRepository.findByUsername(requestDTO.username())
                 .orElseThrow(() -> new Exception404("유저네임 혹은 비밀번호가 일치하지 않습니다"));
-        if (!bCryptPasswordEncoder.matches(requestDTO.getPassword(), findUser.getPassword()))
+        if (!bCryptPasswordEncoder.matches(requestDTO.password(), findUser.getPassword()))
             throw new Exception401("유저네임 혹은 비밀번호가 일치하지 않습니다");
         return JWTUtil.create(findUser);
     }
@@ -50,8 +50,8 @@ public class UserService {
     public AuthResponse.DTO 회원수정(UserRequest.UpdateDTO requestDTO, Integer sessionUserId) {
         User findUser = userRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("회원을 찾을 수 없습니다"));
-        String encPassword = bCryptPasswordEncoder.encode(requestDTO.getPassword());
-        findUser.update(requestDTO.getEmail(), encPassword);
+        String encPassword = bCryptPasswordEncoder.encode(requestDTO.password());
+        findUser.update(requestDTO.email(), encPassword);
         return new AuthResponse.DTO(findUser);
     }
 

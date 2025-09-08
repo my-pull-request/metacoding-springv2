@@ -18,7 +18,7 @@ public class ReplyService {
 
     @Transactional
     public ReplyResponse.DTO 댓글쓰기(ReplyRequest.SaveDTO requestDTO, User sessionUser) {
-        Board findBoard = boardRepository.findById(requestDTO.getBoardId())
+        Board findBoard = boardRepository.findById(requestDTO.boardId())
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
         Reply savedReply = replyRepository.save(requestDTO.toEntity(sessionUser, findBoard));
         return new ReplyResponse.DTO(savedReply, sessionUser.getUsername());

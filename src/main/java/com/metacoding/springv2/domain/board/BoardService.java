@@ -46,7 +46,7 @@ public class BoardService {
         if (!findBoard.getUser().getId().equals(sessionUserId))
             throw new Exception403("게시글을 수정할 권한이 없습니다");
 
-        findBoard.update(requestDTO.getTitle(), requestDTO.getContent());
+        findBoard.update(requestDTO.title(), requestDTO.content());
         return new BoardResponse.DTO(findBoard);
     }
 
