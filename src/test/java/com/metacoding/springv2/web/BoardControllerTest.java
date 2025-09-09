@@ -1,289 +1,300 @@
-// package com.metacoding.springv2.web;
+package com.metacoding.springv2.web;
 
-// import static org.hamcrest.Matchers.hasSize;
-// import org.junit.jupiter.api.AfterEach;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.http.MediaType;
-// import org.springframework.test.web.servlet.ResultActions;
-// import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-// import org.springframework.transaction.annotation.Transactional;
-// import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-// import com.fasterxml.jackson.databind.ObjectMapper;
-// import com.metacoding.springv2.MyRestDoc;
-// import com.metacoding.springv2.core.util.JwtUtil;
-// import com.metacoding.springv2.domain.board.Board;
-// import com.metacoding.springv2.domain.board.BoardRequest;
-// import com.metacoding.springv2.domain.user.User;
+import static org.hamcrest.Matchers.hasSize;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metacoding.springv2.MyRestDoc;
+import com.metacoding.springv2.core.util.JwtUtil;
+import com.metacoding.springv2.domain.board.*;
+import com.metacoding.springv2.domain.user.User;
 
-// @Transactional
-// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-// class BoardControllerTest extends MyRestDoc {
-//     @Autowired
-//     private ObjectMapper om;
+@Transactional
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+public class BoardControllerTest extends MyRestDoc {
+        
+        @Autowired
+        private ObjectMapper om;
 
-//     private String successToken;
-//     private String failToken;
+        User user1;
+        private String successToken;
+        private String failToken;
 
-//     @BeforeEach
-//     void setUp() {
-//         // 테스트용 사용자 생성 및 JWT 토큰 생성
-//         User user1 = User.builder()
-//                 .id(1)
-//                 .username("ssar")
-//                 .password("1234")
-//                 .email("ssar@metacoding.com")
-//                 .roles("USER")
-//                 .build();
-//         successToken = JwtUtil.create(user1);    
+        @BeforeEach
+        void setUp() {
+                // 테스트용 사용자 생성 및 JWT 토큰 생성
+                User user1 = User.builder()
+                        .id(1)
+                        .username("ssar")
+                        .password("1234")
+                        .email("ssar@metacoding.com")
+                        .roles("USER")
+                        .build();
+                successToken = JwtUtil.create(user1);    
 
-//         User user2 = User.builder()
-//                 .id(2)
-//                 .username("cos")
-//                 .password("1234")
-//                 .email("cos@metacoding.com")
-//                 .roles("ADMIN")
-//                 .build();
-//         failToken = JwtUtil.create(user2);
-//     }
+                User user2 = User.builder()
+                        .id(2)
+                        .username("cos")
+                        .password("1234")
+                        .email("cos@metacoding.com")
+                        .roles("ADMIN")
+                        .build();
+                failToken = JwtUtil.create(user2);
+        }
 
-//     @AfterEach
-//     void tearDown() {
-//         // 테스트 후 정리 작업 (필요시)
-//     }
+        @AfterEach
+        void tearDown() {
+            // 테스트 후 정리 작업 (필요시)
+        }
 
-//     // 게시글 목록 조회 성공
-//     @Test
-//     public void findAll_success_test() throws Exception {
-//         //given
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.get("/api/boards")
-//                         .header("Authorization", successToken)
-//         ).andDo(MockMvcResultHandlers.print()).andDo(document);
-//                         // then
-//         result.andExpect(status().isOk())
-//             .andExpect(jsonPath("$", hasSize(5)))
-//             .andExpect(jsonPath("$[0].id").value(1))
-//             .andExpect(jsonPath("$[0].title").value("title 1"))
-//             .andExpect(jsonPath("$[0].content").value("Spring Study 1"))
-//             .andExpect(jsonPath("$[1].id").value(2))
-//             .andExpect(jsonPath("$[1].title").value("title 2"))
-//             .andExpect(jsonPath("$[1].content").value("Spring Study 2"));
-//       }
+        // 게시글 목록 조회 성공
+        @Test
+        public void findAll_success_test() throws Exception {
+                // given
+                // when
+                ResultActions result = mvc.perform(
+                        MockMvcRequestBuilders.get("/api/boards")
+                                .header("Authorization", successToken));
 
-//     // 게시글 목록 조회 실패
-//     @Test
-//     public void findAll_fail_test() throws Exception {
-//         //given
-//         String failToken = "Bearer 123123123123";
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.get("/api/boards")
-//                         .header("Authorization", failToken)
-//                         ).andDo(MockMvcResultHandlers.print()).andDo(document);
-//         // then
-//         result.andExpect(status().isUnauthorized())
-//             .andExpect(jsonPath("$.status").value(401))
-//             .andExpect(jsonPath("$.message").value("로그인 후 이용해주세요"))
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
+                // then
+                result.andExpect(status().isOk())
+                        .andExpect(jsonPath("$.status").value(200))
+                        .andExpect(jsonPath("$.msg").value("성공"))
+                        .andExpect(jsonPath("$.body", hasSize(5)))
+                        .andExpect(jsonPath("$.body[0].id").value(1))
+                        .andExpect(jsonPath("$.body[0].title").value("title 1"))
+                        .andExpect(jsonPath("$.body[0].content").value("Spring Study 1"))
+                        .andExpect(jsonPath("$.body[1].id").value(2))
+                        .andExpect(jsonPath("$.body[1].title").value("title 2"))
+                        .andExpect(jsonPath("$.body[1].content").value("Spring Study 2"))
+                        .andExpect(jsonPath("$.body[2].id").value(3))
+                        .andExpect(jsonPath("$.body[2].title").value("title 3"))
+                        .andExpect(jsonPath("$.body[2].content").value("Spring Study 3"))
+                        .andExpect(jsonPath("$.body[3].id").value(4))
+                        .andExpect(jsonPath("$.body[3].title").value("title 4"))
+                        .andExpect(jsonPath("$.body[3].content").value("Spring Study 4"))
+                        .andExpect(jsonPath("$.body[4].id").value(5))
+                        .andExpect(jsonPath("$.body[4].title").value("title 5"))
+                        .andExpect(jsonPath("$.body[4].content").value("Spring Study 5"))
+                        .andDo(MockMvcResultHandlers.print()).andDo(document);
+                }
 
-//     }
+        // 게시글 목록 조회 실패
+        @Test
+        public void findAll_fail_test() throws Exception {
+                // given
+                String errorToken = "Bearer 123123123123";
 
-//     // 게시글 작성 성공
-//     @Test
-//     public void save_success_test() throws Exception {
-//         // given
-//         Board board = Board.builder()
-//                 .title("test title")
-//                 .content("test content")
-//                 .user(User.builder().id(1).username("ssar")
-//                     .password("1234")
-//                     .email("ssar@metacoding.com")
-//                     .roles("USER").build())
-//                 .build();
-//         String requestBody = om.writeValueAsString(board);
+                // when
+                ResultActions result = mvc.perform(
+                         MockMvcRequestBuilders.get("/api/boards")
+                                .header("Authorization", errorToken));
 
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.post("/api/boards")
-//                         .header("Authorization", accessToken)
-//                         .contentType(MediaType.APPLICATION_JSON)
-//                         .content(requestBody)
-//         );
+                // then
+                result.andExpect(status().isUnauthorized())
+                        .andExpect(jsonPath("$.status").value(401))
+                        .andExpect(jsonPath("$.msg").value("로그인 후 이용해주세요"))
+                        .andExpect(jsonPath("$.body").isEmpty())
+                        .andDo(MockMvcResultHandlers.print()).andDo(document);
+        }
 
-//         // then
-//         result.andExpect(status().isOk())
-//             .andExpect(jsonPath("$.id").value(6))
-//             .andExpect(jsonPath("$.title").value("test title"))
-//             .andExpect(jsonPath("$.content").value("test content"))
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
-//       }
+        // 게시글 작성 성공
+        @Test
+        public void save_success_test() throws Exception {
+                // given
+                Board board = Board.builder()
+                        .title("test title")
+                        .content("test content")
+                        .user(user1)
+                        .build();
+                String requestBody = om.writeValueAsString(board);
 
-//     // // 게시글 작성 실패
-//     @Test
-//     public void save_fail_test() throws Exception {
-//         // given
-//         Board board = Board.builder()
-//                 .title("test title long long long long ======================")
-//                 .content("test content")
-//                 .user(User.builder().id(1).username("ssar")
-//                     .password("1234")
-//                     .email("ssar@metacoding.com")
-//                     .roles("USER").build())
-//                 .build();
+                // when
+                ResultActions result = mvc.perform(
+                        MockMvcRequestBuilders.post("/api/boards")
+                                .header("Authorization", successToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody));
 
-//         String requestBody = om.writeValueAsString(board);
+                // then
+                result.andExpect(status().isOk())
+                        .andExpect(jsonPath("$.status").value(200))
+                        .andExpect(jsonPath("$.msg").value("성공"))
+                        .andExpect(jsonPath("$.body.id").value(6))
+                        .andExpect(jsonPath("$.body.title").value("test title"))
+                        .andExpect(jsonPath("$.body.content").value("test content"))
+                        .andDo(MockMvcResultHandlers.print()).andDo(document);
+        }
 
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.post("/api/boards")
-//                         .header("Authorization", accessToken)
-//                         .contentType(MediaType.APPLICATION_JSON)
-//                         .content(requestBody)
-//         );
+        // 게시글 작성 실패
+        @Test
+        public void save_fail_test() throws Exception {
+                // given
+                Board board = Board.builder()
+                        .title("test title long long long long ======================")
+                        .content("test content")
+                        .user(user1)
+                        .build();
 
-//         // then
-//         result.andExpect(status().isBadRequest()) // 400
-//             .andExpect(jsonPath("$.status").value(400))
-//             .andExpect(jsonPath("$.msg").value("title:제목은 1자 이상 30자 이하로 입력해주세요"))
-//             .andExpect(jsonPath("$.body").isEmpty())
-//             .andDo(MockMvcResultHandlers.print()).andDo(document); 
-//       }
+                String requestBody = om.writeValueAsString(board);
 
-//     // // 게시글 상세 조회 성공
-//     @Test
-//     public void findById_success_test() throws Exception {
-//         // given
-//         Integer boardId = 1;
+                // when
+                ResultActions result = mvc.perform(
+                        MockMvcRequestBuilders.post("/api/boards")
+                                .header("Authorization", successToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody));
 
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.get("/api/boards/" + boardId)
-//                         .header("Authorization", accessToken)
-//         );
+                // then
+                result.andExpect(status().isBadRequest()) // 400
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.msg").value("title:제목은 1자 이상 30자 이하로 입력해주세요"))
+                .andExpect(jsonPath("$.body").isEmpty())
+                .andDo(MockMvcResultHandlers.print()).andDo(document); 
+        }
 
-//         // then
-//         result.andExpect(status().isOk())
-//             .andExpect(jsonPath("$.isBoardOwner").value(true))
-//             .andExpect(jsonPath("$.boardId").value(boardId))
-//             .andExpect(jsonPath("$.title").value("title 1"))
-//             .andExpect(jsonPath("$.content").value("Spring Study 1"))
-//             .andExpect(jsonPath("$.userId").value(1))
-//             .andExpect(jsonPath("$.username").value("ssar"))
-//             .andExpect(jsonPath("$.replies", hasSize(0)))
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
-//       }
+        // 게시글 상세 조회 성공
+        @Test
+        public void findById_success_test() throws Exception {
+            // given
+            Integer boardId = 5;  
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders.get("/api/boards/" + boardId)
+                            .header("Authorization", successToken)
+            );
+        
+            // then
+            result.andExpect(status().isOk())
+                  .andExpect(jsonPath("$.status").value(200))
+                  .andExpect(jsonPath("$.msg").value("성공"))
+                  .andExpect(jsonPath("$.body.boardId").value(boardId))
+                  .andExpect(jsonPath("$.body.title").value("title 5"))
+                  .andExpect(jsonPath("$.body.content").value("Spring Study 5"))
+                  .andExpect(jsonPath("$.body.userId").value(2))
+                  .andExpect(jsonPath("$.body.username").value("cos"))
+                  .andExpect(jsonPath("$.body.isBoardOwner").value(false))
+                  .andExpect(jsonPath("$.body.replies", hasSize(2)))
+                  .andExpect(jsonPath("$.body.replies[0].id").value(4))
+                  .andExpect(jsonPath("$.body.replies[0].username").value("ssar"))
+                  .andExpect(jsonPath("$.body.replies[0].comment").value("reply 4"))
+                  .andExpect(jsonPath("$.body.replies[0].isOwner").value(true))
+                  .andExpect(jsonPath("$.body.replies[1].id").value(5))
+                  .andExpect(jsonPath("$.body.replies[1].username").value("ssar"))
+                  .andExpect(jsonPath("$.body.replies[1].comment").value("reply 5"))
+                  .andExpect(jsonPath("$.body.replies[1].isOwner").value(true))
+                  .andDo(MockMvcResultHandlers.print()).andDo(document);
+        }
+        
 
-//     // // 게시글 상세 조회 실패
-//     @Test
-//     public void findById_fail_test() throws Exception {
-//         // given
-//         Integer id = 50;
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.get("/api/boards/" + id)
-//                         .header("Authorization", accessToken)
-//         );
-//         // then
-//         result.andExpect(status().isNotFound())
-//             .andExpect(jsonPath("$.status").value(404))
-//             .andExpect(jsonPath("$.msg").value("게시글을 찾을 수 없습니다"))
-//             .andExpect(jsonPath("$.body").isEmpty())
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
-//       }
+         // 게시글 상세 조회 실패
+        @Test
+        public void findById_fail_test() throws Exception {
+                // given
+                Integer id = 50;
+                // when
+                ResultActions result = mvc.perform(
+                        MockMvcRequestBuilders.get("/api/boards/" + id)
+                                .header("Authorization", successToken));
+                // then
+                result.andExpect(status().isNotFound())
+                        .andExpect(jsonPath("$.status").value(404))
+                        .andExpect(jsonPath("$.msg").value("게시글을 찾을 수 없습니다"))
+                        .andExpect(jsonPath("$.body").isEmpty())
+                        .andDo(MockMvcResultHandlers.print()).andDo(document);
+        }
 
-//      // 게시글 수정 성공
-//     @Test
-//     public void update_success_test() throws Exception {
-//         // given
-//         Integer boardId = 1;
-//         BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO();
-//         updateDTO.setTitle("update title");
-//         updateDTO.setContent("update content");
+        // 게시글 수정 성공
+        @Test
+        public void update_success_test() throws Exception {
+                // given
+                Integer boardId = 1;
+                BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO("update test", "update content");
+     
+                String requestBody = om.writeValueAsString(updateDTO);
+     
+                // when
+                ResultActions result = mvc.perform(
+                        MockMvcRequestBuilders.put("/api/boards/" + boardId)
+                                .header("Authorization", successToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody));
+     
+                // then
+                result.andExpect(status().isOk())
+                        .andExpect(jsonPath("$.status").value(200))
+                        .andExpect(jsonPath("$.msg").value("성공"))
+                        .andExpect(jsonPath("$.body.id").value(1))
+                        .andExpect(jsonPath("$.body.title").value("update test"))
+                        .andExpect(jsonPath("$.body.content").value("update content"))
+                        .andDo(MockMvcResultHandlers.print()).andDo(document);
+        }
 
-//         String requestBody = om.writeValueAsString(updateDTO);
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.put("/api/boards/" + boardId)
-//                         .header("Authorization", accessToken)
-//                         .contentType(MediaType.APPLICATION_JSON)
-//                         .content(requestBody)
-//         );
-//         // then
-//         result.andExpect(status().isOk())
-//             .andExpect(jsonPath("$.id").value(1))              
-//             .andExpect(jsonPath("$.title").value("update title"))
-//             .andExpect(jsonPath("$.content").value("update content"))
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
-//       }
+        // 게시글 수정 실패
+        @Test
+        public void update_fail_test() throws Exception {
+                // given
+                Integer boardId = 1;
+                BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO("update test", "update content");
 
-//     // 게시글 수정 실패
-//     @Test
-//     public void update_fail_test() throws Exception {
-//         // given
-//         Integer boardId = 1;
-//         BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO();
-//         updateDTO.setTitle("update title");
-//         updateDTO.setContent("update content");
+                String requestBody = om.writeValueAsString(updateDTO);
 
-//         String requestBody = om.writeValueAsString(updateDTO);
-
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.put("/api/boards/" + boardId)
-//                         .header("Authorization", accessToken1)
-//                         .contentType(MediaType.APPLICATION_JSON)
-//                         .content(requestBody)
-//         );
-//         // then
-//         result.andExpect(status().isForbidden()) 
-//         .andExpect(jsonPath("$.status").value(403))
-//         .andExpect(jsonPath("$.msg").value("게시글을 수정할 권한이 없습니다."))
-//         .andExpect(jsonPath("$.body").isEmpty())
-//         .andDo(MockMvcResultHandlers.print()).andDo(document); 
+                // when
+                ResultActions result = mvc.perform(
+                        MockMvcRequestBuilders.put("/api/boards/" + boardId)
+                                .header("Authorization", failToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody));
+                // then
+                result.andExpect(status().isForbidden()) 
+                        .andExpect(jsonPath("$.status").value(403))
+                        .andExpect(jsonPath("$.msg").value("게시글을 수정할 권한이 없습니다"))
+                        .andExpect(jsonPath("$.body").isEmpty())
+                        .andDo(MockMvcResultHandlers.print()).andDo(document); 
   
-//     }
+        }
 
-//     // 게시글 삭제 성공
-//     @Test
-//     public void deleteById_success_test() throws Exception {
-//         // given
-//         Integer boardId = 1;
+        // 게시글 삭제 성공
+        @Test
+        public void deleteById_success_test() throws Exception {
+                // given
+                Integer boardId = 1;
 
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.delete("/api/boards/" + boardId)
-//                         .header("Authorization", accessToken)
-//         );
+                // when
+                ResultActions result = mvc.perform(
+                        MockMvcRequestBuilders.delete("/api/boards/" + boardId)
+                                .header("Authorization", successToken));
 
-//         // then
-//         result.andExpect(status().isOk())
-//             .andExpect(content().string("게시글 삭제 완료"))
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
-//     }
+                // then
+                result.andExpect(status().isOk())
+                        .andExpect(jsonPath("$.status").value(200))
+                        .andExpect(jsonPath("$.msg").value("성공"))
+                        .andExpect(jsonPath("$.body").isEmpty()) 
+                        .andDo(MockMvcResultHandlers.print()).andDo(document);
+        }
 
-//     // 게시글 삭제 실패
-//     @Test
-//     public void deleteById_fail_test() throws Exception {
-//         // given
-//         Integer boardId = 1;
+        // 게시글 삭제 실패
+        @Test
+        public void deleteById_fail_test() throws Exception {
+                // given
+                Integer boardId = 1;
 
-//         // when
-//         ResultActions result = mvc.perform(
-//                 MockMvcRequestBuilders.delete("/api/boards/" + boardId)
-//                         .header("Authorization", accessToken1)
-//         );
-//         // then
-//         result.andExpect(status().isForbidden()) 
-//             .andExpect(jsonPath("$.status").value(403))
-//             .andExpect(jsonPath("$.msg").value("게시글을 삭제할 권한이 없습니다."))
-//             .andExpect(jsonPath("$.body").isEmpty())
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
-//     }
-// }
+                // when
+                ResultActions result = mvc.perform(
+                MockMvcRequestBuilders.delete("/api/boards/" + boardId)
+                        .header("Authorization", failToken));
+                // then
+                result.andExpect(status().isForbidden()) 
+                        .andExpect(jsonPath("$.status").value(403))
+                        .andExpect(jsonPath("$.msg").value("게시글을 삭제할 권한이 없습니다"))
+                        .andExpect(jsonPath("$.body").isEmpty())
+                        .andDo(MockMvcResultHandlers.print()).andDo(document);
+        }
+}
