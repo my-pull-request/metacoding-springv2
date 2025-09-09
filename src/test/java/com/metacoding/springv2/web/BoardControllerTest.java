@@ -27,21 +27,20 @@
 //     @Autowired
 //     private ObjectMapper om;
 
-//     private String accessToken;
-//     private String accessToken1;
-
+//     private String successToken;
+//     private String failToken;
 
 //     @BeforeEach
 //     void setUp() {
 //         // 테스트용 사용자 생성 및 JWT 토큰 생성
-//         User user = User.builder()
+//         User user1 = User.builder()
 //                 .id(1)
 //                 .username("ssar")
 //                 .password("1234")
 //                 .email("ssar@metacoding.com")
 //                 .roles("USER")
 //                 .build();
-//         accessToken = JwtUtil.create(user);    
+//         successToken = JwtUtil.create(user1);    
 
 //         User user2 = User.builder()
 //                 .id(2)
@@ -50,7 +49,7 @@
 //                 .email("cos@metacoding.com")
 //                 .roles("ADMIN")
 //                 .build();
-//         accessToken1 = JwtUtil.create(user2);
+//         failToken = JwtUtil.create(user2);
 //     }
 
 //     @AfterEach
@@ -65,9 +64,9 @@
 //         // when
 //         ResultActions result = mvc.perform(
 //                 MockMvcRequestBuilders.get("/api/boards")
-//                         .header("Authorization", accessToken)
-//         );
-//         // then
+//                         .header("Authorization", successToken)
+//         ).andDo(MockMvcResultHandlers.print()).andDo(document);
+//                         // then
 //         result.andExpect(status().isOk())
 //             .andExpect(jsonPath("$", hasSize(5)))
 //             .andExpect(jsonPath("$[0].id").value(1))
@@ -75,8 +74,7 @@
 //             .andExpect(jsonPath("$[0].content").value("Spring Study 1"))
 //             .andExpect(jsonPath("$[1].id").value(2))
 //             .andExpect(jsonPath("$[1].title").value("title 2"))
-//             .andExpect(jsonPath("$[1].content").value("Spring Study 2"))
-//             .andDo(MockMvcResultHandlers.print()).andDo(document);
+//             .andExpect(jsonPath("$[1].content").value("Spring Study 2"));
 //       }
 
 //     // 게시글 목록 조회 실패
@@ -88,7 +86,7 @@
 //         ResultActions result = mvc.perform(
 //                 MockMvcRequestBuilders.get("/api/boards")
 //                         .header("Authorization", failToken)
-//         );
+//                         ).andDo(MockMvcResultHandlers.print()).andDo(document);
 //         // then
 //         result.andExpect(status().isUnauthorized())
 //             .andExpect(jsonPath("$.status").value(401))
