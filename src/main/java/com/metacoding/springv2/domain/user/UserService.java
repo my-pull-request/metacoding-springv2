@@ -3,7 +3,7 @@ package com.metacoding.springv2.domain.user;
 import com.metacoding.springv2.core.handler.ex.Exception401;
 import com.metacoding.springv2.core.handler.ex.Exception403;
 import com.metacoding.springv2.core.handler.ex.Exception404;
-import com.metacoding.springv2.core.util.JWTUtil;
+import com.metacoding.springv2.core.util.JwtUtil;
 import com.metacoding.springv2.domain.auth.AuthRequest;
 import com.metacoding.springv2.domain.auth.AuthResponse;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class UserService {
                 .orElseThrow(() -> new Exception404("유저네임 혹은 비밀번호가 일치하지 않습니다"));
         if (!bCryptPasswordEncoder.matches(requestDTO.password(), findUser.getPassword()))
             throw new Exception401("유저네임 혹은 비밀번호가 일치하지 않습니다");
-        return JWTUtil.create(findUser);
+        return JwtUtil.create(findUser);
     }
 
     public AuthResponse.DTO 회원조회(Integer userId, Integer sessionUserId) {

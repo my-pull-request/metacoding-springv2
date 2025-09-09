@@ -1,7 +1,7 @@
 package com.metacoding.springv2.core.config;
 
-import com.metacoding.springv2.core.filter.JWTAuthorizationFilter;
-import com.metacoding.springv2.core.util.JWTProvider;
+import com.metacoding.springv2.core.filter.JwtAuthorizationFilter;
+import com.metacoding.springv2.core.util.JwtProvider;
 import com.metacoding.springv2.core.util.RespFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    private final JWTProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
     @Value("${app.cors.allowed-origins}")
     private String allowedOrigins;
@@ -70,7 +70,7 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // 6. 필터 추가: JWT 인증 필터를 UsernamePasswordAuthenticationFilter 이전에 등록하여 JWT 유효성 검사를 수행합니다.
-        http.addFilterBefore(new JWTAuthorizationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthorizationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
 
         // 7. CORS 필터 설정
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));

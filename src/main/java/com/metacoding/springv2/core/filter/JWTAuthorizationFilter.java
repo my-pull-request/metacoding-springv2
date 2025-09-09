@@ -1,6 +1,6 @@
 package com.metacoding.springv2.core.filter;
 
-import com.metacoding.springv2.core.util.JWTProvider;
+import com.metacoding.springv2.core.util.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,9 +13,9 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public class JWTAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
     
-    private final JWTProvider jwtProvider;
+    private final JwtProvider jwtProvider;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

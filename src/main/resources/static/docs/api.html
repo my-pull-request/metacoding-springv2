@@ -494,40 +494,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>새로운 사용자를 등록합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /join HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 112
-Host: localhost:8080
-
-{
-  "username" : "testUser",
-  "password" : "1234",
-  "email" : "test@metacoding.com",
-  "roles" : "USER"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/join_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 101
-
-{
-  "id" : 3,
-  "username" : "testUser",
-  "email" : "test@metacoding.com",
-  "roles" : "USER"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/join_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -553,6 +524,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 0
@@ -578,33 +552,11 @@ Content-Length: 106
 <div class="paragraph">
 <p>사용자 로그인을 처리합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /login HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 51
-Host: localhost:8080
-
-{
-  "username" : "ssar",
-  "password" : "1234"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/login_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 202
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-
-Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/login_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -612,37 +564,11 @@ Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VS
 <div class="paragraph">
 <p>잘못된 비밀번호로 로그인을 시도합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /login HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Content-Length: 51
-Host: localhost:8080
-
-{
-  "username" : "ssar",
-  "password" : "1111"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/login_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 96
-
-{
-  "status" : 401,
-  "msg" : "비밀번호가 일치하지 않습니다",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/login_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -653,28 +579,11 @@ Content-Length: 96
 <div class="paragraph">
 <p>사용자명 중복 확인을 수행합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /check-username?username=testUser HTTP/1.1
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/check-username_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 26
-
-{
-  "available" : true
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/check-username_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -682,28 +591,11 @@ Content-Length: 26
 <div class="paragraph">
 <p>이미 존재하는 사용자명을 확인합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /check-username?username=ssar HTTP/1.1
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/check-username_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 27
-
-{
-  "available" : false
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/auth-controller-test/check-username_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -716,32 +608,11 @@ Content-Length: 27
 <div class="paragraph">
 <p>특정 사용자 정보를 조회합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/users/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NX0.MDs7AWzMZYmfT7wIHx-jUXyaUHUedXAPZB8vWl0gY_-YJ1k3hm0vw55Fvp2_5HIFFk1arydOCGEhlLCjCN2_Vg
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/get-user_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 97
-
-{
-  "id" : 1,
-  "username" : "ssar",
-  "email" : "ssar@metacoding.com",
-  "roles" : "USER"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/get-user_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -749,31 +620,11 @@ Content-Length: 97
 <div class="paragraph">
 <p>권한이 없는 사용자 정보를 조회합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/users/20 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NX0.MDs7AWzMZYmfT7wIHx-jUXyaUHUedXAPZB8vWl0gY_-YJ1k3hm0vw55Fvp2_5HIFFk1arydOCGEhlLCjCN2_Vg
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/get-user_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 91
-
-{
-  "status" : 403,
-  "msg" : "접근할 수 없는 유저입니다",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/get-user_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -784,39 +635,11 @@ Content-Length: 91
 <div class="paragraph">
 <p>사용자 정보를 수정합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/users HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Content-Length: 66
-Host: localhost:8080
-
-{
-  "email" : "update@metacoding.com",
-  "password" : "12345"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/update-user_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 99
-
-{
-  "id" : 1,
-  "username" : "ssar",
-  "email" : "update@metacoding.com",
-  "roles" : "USER"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/update-user_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -824,37 +647,11 @@ Content-Length: 99
 <div class="paragraph">
 <p>잘못된 토큰으로 사용자 정보를 수정합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/users HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer 131231232131
-Content-Length: 66
-Host: localhost:8080
-
-{
-  "email" : "update@metacoding.com",
-  "password" : "12345"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/update-user_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 73
-
-{
-  "status" : 401,
-  "message" : "로그인 후 이용해주세요"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/user-controller-test/update-user_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -868,47 +665,11 @@ Content-Length: 73
 <div class="paragraph">
 <p>게시글 목록을 조회합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/boards HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-all_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 377
-
-[ {
-  "id" : 1,
-  "title" : "title 1",
-  "content" : "Spring Study 1"
-}, {
-  "id" : 2,
-  "title" : "title 2",
-  "content" : "Spring Study 2"
-}, {
-  "id" : 3,
-  "title" : "title 3",
-  "content" : "Spring Study 3"
-}, {
-  "id" : 4,
-  "title" : "title 4",
-  "content" : "Spring Study 4"
-}, {
-  "id" : 5,
-  "title" : "title 5",
-  "content" : "Spring Study 5"
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-all_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -916,30 +677,11 @@ Content-Length: 377
 <div class="paragraph">
 <p>잘못된 토큰으로 게시글 목록을 조회합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/boards HTTP/1.1
-Authorization: Bearer 123123123123
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-all_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 401 Unauthorized
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 73
-
-{
-  "status" : 401,
-  "message" : "로그인 후 이용해주세요"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-all_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -950,56 +692,11 @@ Content-Length: 73
 <div class="paragraph">
 <p>새로운 게시글을 작성합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/boards HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Content-Length: 485
-Host: localhost:8080
-
-{
-  "id" : null,
-  "title" : "test title",
-  "content" : "test content",
-  "createdAt" : null,
-  "user" : {
-    "id" : 1,
-    "username" : "ssar",
-    "password" : "1234",
-    "email" : "ssar@metacoding.com",
-    "roles" : "USER",
-    "createdAt" : null,
-    "authorities" : [ {
-      "authority" : "ROLE_USER"
-    } ],
-    "accountNonExpired" : true,
-    "accountNonLocked" : true,
-    "credentialsNonExpired" : true,
-    "enabled" : true
-  },
-  "replies" : [ ]
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/save_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 74
-
-{
-  "id" : 6,
-  "title" : "test title",
-  "content" : "test content"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/save_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -1007,56 +704,11 @@ Content-Length: 74
 <div class="paragraph">
 <p>제목이 너무 긴 게시글을 작성합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/boards HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Content-Length: 528
-Host: localhost:8080
-
-{
-  "id" : null,
-  "title" : "test title long long long long ======================",
-  "content" : "test content",
-  "createdAt" : null,
-  "user" : {
-    "id" : 1,
-    "username" : "ssar",
-    "password" : "1234",
-    "email" : "ssar@metacoding.com",
-    "roles" : "USER",
-    "createdAt" : null,
-    "authorities" : [ {
-      "authority" : "ROLE_USER"
-    } ],
-    "accountNonExpired" : true,
-    "accountNonLocked" : true,
-    "credentialsNonExpired" : true,
-    "enabled" : true
-  },
-  "replies" : [ ]
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/save_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 117
-
-{
-  "status" : 400,
-  "msg" : "title:제목은 1자 이상 30자 이하로 입력해주세요",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/save_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1067,35 +719,11 @@ Content-Length: 117
 <div class="paragraph">
 <p>특정 게시글의 상세 정보를 조회합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/boards/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-by-id_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 165
-
-{
-  "isBoardOwner" : true,
-  "boardId" : 1,
-  "title" : "title 1",
-  "content" : "Spring Study 1",
-  "userId" : 1,
-  "username" : "ssar",
-  "replies" : [ ]
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-by-id_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -1103,31 +731,11 @@ Content-Length: 165
 <div class="paragraph">
 <p>존재하지 않는 게시글을 조회합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/boards/50 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-by-id_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 91
-
-{
-  "status" : 404,
-  "msg" : "게시글을 찾을 수 없습니다",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/find-by-id_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1138,38 +746,11 @@ Content-Length: 91
 <div class="paragraph">
 <p>게시글을 수정합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/boards/1 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Content-Length: 65
-Host: localhost:8080
-
-{
-  "title" : "update title",
-  "content" : "update content"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/update_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 78
-
-{
-  "id" : 1,
-  "title" : "update title",
-  "content" : "update content"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/update_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -1177,38 +758,11 @@ Content-Length: 78
 <div class="paragraph">
 <p>권한이 없는 게시글을 수정합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/boards/1 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3MiLCJyb2xlcyI6IkFETUlOIiwiaWQiOjIsImV4cCI6MTc1NzY5NTg1NH0.-NjJs6_kVu2gxsLtSw4c3-n_xNrJA9ZK2ZquEeLELDTmQLDd4vkl4b1DTbOUX5A7oVeQNO86InsYcopgmzrvFQ
-Content-Length: 65
-Host: localhost:8080
-
-{
-  "title" : "update title",
-  "content" : "update content"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/update_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 101
-
-{
-  "status" : 403,
-  "msg" : "게시글을 수정할 권한이 없습니다.",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/update_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1219,27 +773,11 @@ Content-Length: 101
 <div class="paragraph">
 <p>게시글을 삭제합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/boards/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/delete-by-id_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 23
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-
-게시글 삭제 완료</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/delete-by-id_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -1247,31 +785,11 @@ X-Frame-Options: SAMEORIGIN
 <div class="paragraph">
 <p>권한이 없는 게시글을 삭제합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/boards/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3MiLCJyb2xlcyI6IkFETUlOIiwiaWQiOjIsImV4cCI6MTc1NzY5NTg1NH0.-NjJs6_kVu2gxsLtSw4c3-n_xNrJA9ZK2ZquEeLELDTmQLDd4vkl4b1DTbOUX5A7oVeQNO86InsYcopgmzrvFQ
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/delete-by-id_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 101
-
-{
-  "status" : 403,
-  "msg" : "게시글을 삭제할 권한이 없습니다.",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/board-controller-test/delete-by-id_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1285,40 +803,11 @@ Content-Length: 101
 <div class="paragraph">
 <p>새로운 댓글을 작성합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/replies HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Content-Length: 52
-Host: localhost:8080
-
-{
-  "comment" : "test comment",
-  "boardId" : 1
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/save_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 106
-
-{
-  "id" : 6,
-  "comment" : "test comment",
-  "userId" : 1,
-  "username" : "ssar",
-  "boardId" : 1
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/save_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -1326,38 +815,11 @@ Content-Length: 106
 <div class="paragraph">
 <p>빈 댓글을 작성합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/replies HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Content-Length: 40
-Host: localhost:8080
-
-{
-  "comment" : "",
-  "boardId" : 1
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/save_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 91
-
-{
-  "status" : 400,
-  "msg" : "comment:댓글을 입력해주세요",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/save_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1368,27 +830,11 @@ Content-Length: 91
 <div class="paragraph">
 <p>댓글을 삭제합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/replies/4 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/delete-by-id_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 20
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-
-댓글 삭제 완료</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/delete-by-id_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -1396,31 +842,11 @@ X-Frame-Options: SAMEORIGIN
 <div class="paragraph">
 <p>권한이 없는 댓글을 삭제합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/replies/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1NH0.An8nBreid-DGiOmciZGLKkShph7tsQv6B27ori-wl5uoSMVEZLT6xoIvM1OJT4g9XlWKx8wTB189bQy3X_nZLQ
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/delete-by-id_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 97
-
-{
-  "status" : 403,
-  "msg" : "댓글을 삭제할 권한이 없습니다",
-  "body" : null
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/reply-controller-test/delete-by-id_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1434,27 +860,11 @@ Content-Length: 97
 <div class="paragraph">
 <p>관리자가 게시글을 삭제합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/admin/boards/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3MiLCJyb2xlcyI6IkFETUlOIiwiaWQiOjIsImV4cCI6MTc1NzY5NTg1M30.wnzIzO2hxgc7xFmnAHlNzCK_i7IuTIfW7T-1aD28Iv1bun6AxI8iub-HPH-Tfo-HoVyoWghfVk-odPe5WWaR-A
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/admin-controller-test/delete-by-id_success_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 23
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-
-게시글 삭제 완료</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/admin-controller-test/delete-by-id_success_test/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect4">
@@ -1462,30 +872,11 @@ X-Frame-Options: SAMEORIGIN
 <div class="paragraph">
 <p>일반 사용자가 관리자 기능을 사용합니다.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/admin/boards/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1NzY5NTg1M30.jBoJ9Q_9NRzon5BFXIUfM97K5nhnwOZghcr0wFC-_u723CAVK1giI_1-kVWgyXT89kUeizwBkCOlQjfs9r5VGA
-Host: localhost:8080</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/admin-controller-test/delete-by-id_fail_test/http-request.adoc[]</p>
 </div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: SAMEORIGIN
-Content-Length: 63
-
-{
-  "status" : 403,
-  "message" : "권한이 없습니다"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in api.adoc - include::C:\study\222\metacoding-springv2\build\generated-snippets/admin-controller-test/delete-by-id_fail_test/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -1523,7 +914,7 @@ Content-Length: 63
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2025-09-06 01:36:00 +0900
+Last updated 2025-09-08 22:43:32 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

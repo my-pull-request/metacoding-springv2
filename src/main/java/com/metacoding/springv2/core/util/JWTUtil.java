@@ -7,7 +7,7 @@ import com.metacoding.springv2.domain.user.User;
 
 import java.util.Date;
 
-public class JWTUtil {
+public class JwtUtil {
     public static final String HEADER = "Authorization"; // HTTP 헤더 이름
     public static final String TOKEN_PREFIX = "Bearer "; // 토큰 접두사
     public static final String SECRET = "메타코딩시크릿키"; // 토큰 서명에 사용될 비밀 키 (강력하게 변경 필요!)

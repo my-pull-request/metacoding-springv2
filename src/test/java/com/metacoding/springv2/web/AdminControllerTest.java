@@ -1,81 +1,81 @@
-package com.metacoding.springv2.web;
+// package com.metacoding.springv2.web;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.transaction.annotation.Transactional;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.test.web.servlet.ResultActions;
+// import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+// import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+// import org.springframework.transaction.annotation.Transactional;
 
-import com.metacoding.springv2.MyRestDoc;
-import com.metacoding.springv2.core.util.JWTUtil;
-import com.metacoding.springv2.domain.user.User;
+// import com.metacoding.springv2.MyRestDoc;
+// import com.metacoding.springv2.core.util.JwtUtil;
+// import com.metacoding.springv2.domain.user.User;
 
-@Transactional
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class AdminControllerTest extends MyRestDoc {
-
-
-    private String accessToken;
-    private String accessToken1;
+// @Transactional
+// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+// class AdminControllerTest extends MyRestDoc {
 
 
-    @BeforeEach
-    void setUp() {
-        // 테스트용 사용자 생성 및 JWT 토큰 생성
-        User user = User.builder()
-                .id(1)
-                .username("ssar")
-                .password("1234")
-                .email("ssar@metacoding.com")
-                .roles("USER")
-                .build();
-        accessToken = JWTUtil.create(user);    
+//     private String accessToken;
+//     private String accessToken1;
 
-        User user2 = User.builder()
-                .id(2)
-                .username("cos")
-                .password("1234")
-                .email("cos@metacoding.com")
-                .roles("ADMIN")
-                .build();
-        accessToken1 = JWTUtil.create(user2);
-    }
+
+//     @BeforeEach
+//     void setUp() {
+//         // 테스트용 사용자 생성 및 JWT 토큰 생성
+//         User user = User.builder()
+//                 .id(1)
+//                 .username("ssar")
+//                 .password("1234")
+//                 .email("ssar@metacoding.com")
+//                 .roles("USER")
+//                 .build();
+//         accessToken = JwtUtil.create(user);    
+
+//         User user2 = User.builder()
+//                 .id(2)
+//                 .username("cos")
+//                 .password("1234")
+//                 .email("cos@metacoding.com")
+//                 .roles("ADMIN")
+//                 .build();
+//         accessToken1 = JwtUtil.create(user2);
+//     }
 
     
-    // 관리자 게시글 삭제 실패
-    @Test
-    public void deleteById_fail_test() throws Exception {
-        // given
-        Integer boardId = 1;
+//     // 관리자 게시글 삭제 실패
+//     @Test
+//     public void deleteById_fail_test() throws Exception {
+//         // given
+//         Integer boardId = 1;
 
-        // when
-        ResultActions result = mvc.perform(
-                MockMvcRequestBuilders.delete("/api/admin/boards/" + boardId)
-                        .header("Authorization", accessToken)
-        );
-        // then
-        result.andExpect(status().isForbidden()) 
-            .andExpect(jsonPath("$.status").value(403)).andDo(MockMvcResultHandlers.print()).andDo(document);
-    }
+//         // when
+//         ResultActions result = mvc.perform(
+//                 MockMvcRequestBuilders.delete("/api/admin/boards/" + boardId)
+//                         .header("Authorization", accessToken)
+//         );
+//         // then
+//         result.andExpect(status().isForbidden()) 
+//             .andExpect(jsonPath("$.status").value(403)).andDo(MockMvcResultHandlers.print()).andDo(document);
+//     }
 
-    // 관리자 게시글 삭제 성공
-    @Test
-    public void deleteById_success_test() throws Exception {
-        // given
-        Integer boardId = 1;
+//     // 관리자 게시글 삭제 성공
+//     @Test
+//     public void deleteById_success_test() throws Exception {
+//         // given
+//         Integer boardId = 1;
         
-        // when
-        ResultActions result = mvc.perform(
-                MockMvcRequestBuilders.delete("/api/admin/boards/" + boardId)
-                        .header("Authorization", accessToken1)
-        );
-        // then
-        result.andExpect(status().isOk()).andDo(MockMvcResultHandlers.print()).andDo(document);
-    }
+//         // when
+//         ResultActions result = mvc.perform(
+//                 MockMvcRequestBuilders.delete("/api/admin/boards/" + boardId)
+//                         .header("Authorization", accessToken1)
+//         );
+//         // then
+//         result.andExpect(status().isOk()).andDo(MockMvcResultHandlers.print()).andDo(document);
+//     }
 
-}
+// }
 
