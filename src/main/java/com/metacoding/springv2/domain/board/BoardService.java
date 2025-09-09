@@ -1,7 +1,6 @@
 package com.metacoding.springv2.domain.board;
 
-import com.metacoding.springv2.core.handler.ex.Exception403;
-import com.metacoding.springv2.core.handler.ex.Exception404;
+import com.metacoding.springv2.core.handler.ex.*;
 import com.metacoding.springv2.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

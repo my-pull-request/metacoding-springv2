@@ -1,8 +1,7 @@
 package com.metacoding.springv2.web;
 
 import com.metacoding.springv2.core.util.Resp;
-import com.metacoding.springv2.domain.board.BoardRequest;
-import com.metacoding.springv2.domain.board.BoardService;
+import com.metacoding.springv2.domain.board.*;
 import com.metacoding.springv2.domain.user.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

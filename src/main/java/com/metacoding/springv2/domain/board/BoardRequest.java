@@ -2,8 +2,7 @@ package com.metacoding.springv2.domain.board;
 
 import com.metacoding.springv2.domain.board.Board;
 import com.metacoding.springv2.domain.user.User;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 
 public class BoardRequest {
 

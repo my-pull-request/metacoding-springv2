@@ -2,8 +2,7 @@ package com.metacoding.springv2.domain.reply;
 
 import com.metacoding.springv2.domain.user.User;
 import com.metacoding.springv2.domain.board.Board;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 
 public class ReplyRequest {
 
