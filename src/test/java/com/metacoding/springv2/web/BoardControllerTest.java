@@ -24,8 +24,8 @@ public class BoardControllerTest extends MyRestDoc {
         private ObjectMapper om;
 
         User user1;
-        private String successToken;
-        private String failToken;
+        private String accessToken; // 성공 테스트용 토큰
+        private String failToken; // 실패 테스트용 토큰
 
         @BeforeEach
         void setUp() {
@@ -37,7 +37,7 @@ public class BoardControllerTest extends MyRestDoc {
                         .email("ssar@metacoding.com")
                         .roles("USER")
                         .build();
-                successToken = JwtUtil.create(user1);    
+                accessToken = JwtUtil.create(user1);    
 
                 User user2 = User.builder()
                         .id(2)
@@ -61,7 +61,7 @@ public class BoardControllerTest extends MyRestDoc {
                 // when
                 ResultActions result = mvc.perform(
                         MockMvcRequestBuilders.get("/api/boards")
-                                .header("Authorization", successToken));
+                                .header("Authorization", accessToken));
 
                 // then
                 result.andExpect(status().isOk())
@@ -119,7 +119,7 @@ public class BoardControllerTest extends MyRestDoc {
                 // when
                 ResultActions result = mvc.perform(
                         MockMvcRequestBuilders.post("/api/boards")
-                                .header("Authorization", successToken)
+                                .header("Authorization", accessToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody));
 
@@ -148,7 +148,7 @@ public class BoardControllerTest extends MyRestDoc {
                 // when
                 ResultActions result = mvc.perform(
                         MockMvcRequestBuilders.post("/api/boards")
-                                .header("Authorization", successToken)
+                                .header("Authorization", accessToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody));
 
@@ -168,7 +168,7 @@ public class BoardControllerTest extends MyRestDoc {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders.get("/api/boards/" + boardId)
-                            .header("Authorization", successToken)
+                            .header("Authorization", accessToken)
             );
         
             // then
@@ -202,7 +202,7 @@ public class BoardControllerTest extends MyRestDoc {
                 // when
                 ResultActions result = mvc.perform(
                         MockMvcRequestBuilders.get("/api/boards/" + id)
-                                .header("Authorization", successToken));
+                                .header("Authorization", accessToken));
                 // then
                 result.andExpect(status().isNotFound())
                         .andExpect(jsonPath("$.status").value(404))
@@ -223,7 +223,7 @@ public class BoardControllerTest extends MyRestDoc {
                 // when
                 ResultActions result = mvc.perform(
                         MockMvcRequestBuilders.put("/api/boards/" + boardId)
-                                .header("Authorization", successToken)
+                                .header("Authorization", accessToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody));
      
@@ -270,7 +270,7 @@ public class BoardControllerTest extends MyRestDoc {
                 // when
                 ResultActions result = mvc.perform(
                         MockMvcRequestBuilders.delete("/api/boards/" + boardId)
-                                .header("Authorization", successToken));
+                                .header("Authorization", accessToken));
 
                 // then
                 result.andExpect(status().isOk())

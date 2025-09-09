@@ -40,7 +40,7 @@ public class UserService {
     }
 
     public AuthResponse.DTO 회원조회(Integer userId, Integer sessionUserId) {
-        if (userId.equals(sessionUserId)) throw new Exception403("조회 권한이 없습니다");
+        if (!userId.equals(sessionUserId)) throw new Exception403("조회 권한이 없습니다");
         User findUser = userRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("회원을 찾을 수 없습니다"));
         return new AuthResponse.DTO(findUser);

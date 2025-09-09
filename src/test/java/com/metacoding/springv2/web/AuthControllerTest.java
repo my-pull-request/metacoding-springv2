@@ -42,9 +42,7 @@ public class AuthControllerTest extends MyRestDoc {
         ResultActions result = mvc.perform(
                 MockMvcRequestBuilders.post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-        ).andDo(MockMvcResultHandlers.print()).andDo(document);
-    
+                        .content(requestBody));    
         // then
         result.andExpect(status().isOk()) // HTTP 상태코드 200
               .andExpect(jsonPath("$.msg").value("성공"))
@@ -73,9 +71,7 @@ public class AuthControllerTest extends MyRestDoc {
         ResultActions result = mvc.perform(
             MockMvcRequestBuilders.post("/join")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(requestBody)
-                   ).andDo(MockMvcResultHandlers.print()).andDo(document);
-
+                    .content(requestBody));
         // then
         result.andExpect(status().isBadRequest()) // HTTP 400
           .andExpect(jsonPath("$.msg").value("email:이메일 형식이 올바르지 않습니다"))
@@ -95,9 +91,7 @@ public class AuthControllerTest extends MyRestDoc {
                 ResultActions result = mvc.perform(      
                         MockMvcRequestBuilders.post("/login")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody)
-                                ).andDo(MockMvcResultHandlers.print()).andDo(document);
-
+                                .content(requestBody));
                 // then
                 result.andExpect(status().isOk()) // HTTP 200
                         .andExpect(jsonPath("$.msg").value("성공"))
@@ -118,8 +112,7 @@ public class AuthControllerTest extends MyRestDoc {
                 ResultActions result = mvc.perform(
                         MockMvcRequestBuilders.post("/login")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody)
-                                ).andDo(MockMvcResultHandlers.print()).andDo(document);
+                                .content(requestBody));
     
                 // then
                 result.andExpect(status().isUnauthorized()) // HTTP 401
@@ -137,9 +130,7 @@ public class AuthControllerTest extends MyRestDoc {
                   // when
                   ResultActions result = mvc.perform(
                           MockMvcRequestBuilders.get("/check-username")
-                                  .param("username", username)
-                  ).andDo(MockMvcResultHandlers.print()).andDo(document);
-              
+                                  .param("username", username));              
                   // then
                   result.andExpect(status().isOk()) // HTTP 200
                         .andExpect(jsonPath("$.msg").value("성공"))
@@ -156,9 +147,7 @@ public class AuthControllerTest extends MyRestDoc {
                   // when
                   ResultActions result = mvc.perform(
                           MockMvcRequestBuilders.get("/check-username")
-                                  .param("username", username)
-                  ).andDo(MockMvcResultHandlers.print()).andDo(document);
-              
+                                  .param("username", username));              
                   // then
                   result.andExpect(status().isOk()) // HTTP 200
                         .andExpect(jsonPath("$.msg").value("성공"))
