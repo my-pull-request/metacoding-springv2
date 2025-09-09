@@ -1,4 +1,4 @@
-= Metacoding API 문서서
+= Metacoding API 문서
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -17,7 +17,6 @@
 새로운 사용자를 등록합니다.
 
 include::{snippets}/auth-controller-test/join_success_test/http-request.adoc[]
-
 include::{snippets}/auth-controller-test/join_success_test/http-response.adoc[]
 
 ===== POST /join (실패)
@@ -251,17 +250,3 @@ include::{snippets}/admin-controller-test/delete-by-id_success_test/http-respons
 include::{snippets}/admin-controller-test/delete-by-id_fail_test/http-request.adoc[]
 
 include::{snippets}/admin-controller-test/delete-by-id_fail_test/http-response.adoc[]
-
-== Error Codes
-
-=== 400 Bad Request
-잘못된 요청 데이터
-
-=== 401 Unauthorized
-인증이 필요함
-
-=== 403 Forbidden
-권한이 없음
-
-=== 404 Not Found
-리소스를 찾을 수 없음
