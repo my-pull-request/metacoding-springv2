@@ -15,31 +15,11 @@ java {
 	}
 }
 
-// 1. 아래는 별도로 명시할 필요가 없음
-// sourceSets {
-// 	main {
-// 		java {
-// 			srcDirs = ['src/main/java']
-// 		}
-// 		resources {
-// 			srcDirs = ['src/main/resources']
-// 		}
-// 	}
-// }
-
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 }
-
-// 2. mavenCentral() 이것만 필요함
-// repositories {
-// 	mavenCentral()
-// 	maven { url 'https://repo.spring.io/snapshot' }
-// 	gradlePluginPortal()
-// }
 
 repositories {
     mavenCentral()
@@ -74,6 +54,7 @@ tasks.named('test') {
 // 3. 'asciidoctor' 태스크는 테스트에서 생성된 스니펫(.adoc) 파일을 입력으로 받아서 최종적인 HTML API 문서로 변환합니다.
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
+	
     dependsOn test
 }
 
