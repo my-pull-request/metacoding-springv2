@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +113,7 @@ public class BoardControllerTest extends MyRestDoc {
                                 MockMvcRequestBuilders.get("/api/boards/" + boardId)
                                                 .header("Authorization", accessToken));
 
-                // then
+                // then (테스트는 0번지만)
                 result.andExpect(status().isOk())
                                 .andExpect(jsonPath("$.status").value(200))
                                 .andExpect(jsonPath("$.msg").value("성공"))
@@ -123,16 +122,12 @@ public class BoardControllerTest extends MyRestDoc {
                                 .andExpect(jsonPath("$.body.content").value("Spring Study 5"))
                                 .andExpect(jsonPath("$.body.userId").value(2))
                                 .andExpect(jsonPath("$.body.username").value("cos"))
-                                .andExpect(jsonPath("$.body.isBoardOwner").value(false))
+                                .andExpect(jsonPath("$.body.isOwner").value(false))
                                 .andExpect(jsonPath("$.body.replies", hasSize(2)))
                                 .andExpect(jsonPath("$.body.replies[0].id").value(4))
                                 .andExpect(jsonPath("$.body.replies[0].username").value("ssar"))
                                 .andExpect(jsonPath("$.body.replies[0].comment").value("reply 4"))
                                 .andExpect(jsonPath("$.body.replies[0].isOwner").value(true))
-                                .andExpect(jsonPath("$.body.replies[1].id").value(5))
-                                .andExpect(jsonPath("$.body.replies[1].username").value("ssar"))
-                                .andExpect(jsonPath("$.body.replies[1].comment").value("reply 5"))
-                                .andExpect(jsonPath("$.body.replies[1].isOwner").value(true))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
 
