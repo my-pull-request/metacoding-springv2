@@ -1,15 +1,20 @@
-package com.metacoding.springv2.domain.user;
+package com.metacoding.springv2.user;
 
-import com.metacoding.springv2.core.handler.ex.*;
-import com.metacoding.springv2.core.util.JwtUtil;
-import com.metacoding.springv2.domain.auth.*;
-import lombok.RequiredArgsConstructor;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.metacoding.springv2.auth.AuthRequest;
+import com.metacoding.springv2.auth.AuthResponse;
+import com.metacoding.springv2.core.handler.ex.Exception401;
+import com.metacoding.springv2.core.handler.ex.Exception403;
+import com.metacoding.springv2.core.handler.ex.Exception404;
+import com.metacoding.springv2.core.util.JwtUtil;
+
+import lombok.RequiredArgsConstructor;
 
 @Transactional(readOnly = true) // 변경감지 생략
 @RequiredArgsConstructor
@@ -37,7 +42,8 @@ public class UserService {
     }
 
     public AuthResponse.DTO 회원조회(Integer userId, Integer sessionUserId) {
-        if (!userId.equals(sessionUserId)) throw new Exception403("조회 권한이 없습니다");
+        if (!userId.equals(sessionUserId))
+            throw new Exception403("조회 권한이 없습니다");
         User findUser = userRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("회원을 찾을 수 없습니다"));
         return new AuthResponse.DTO(findUser);

@@ -1,4 +1,4 @@
-package com.metacoding.springv2.domain.user;
+package com.metacoding.springv2.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

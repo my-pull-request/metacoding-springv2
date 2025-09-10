@@ -1,11 +1,15 @@
-package com.metacoding.springv2.domain.reply;
+package com.metacoding.springv2.reply;
 
-import com.metacoding.springv2.core.handler.ex.*;
-import com.metacoding.springv2.domain.board.*;
-import com.metacoding.springv2.domain.user.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.metacoding.springv2.board.Board;
+import com.metacoding.springv2.board.BoardRepository;
+import com.metacoding.springv2.core.handler.ex.Exception403;
+import com.metacoding.springv2.core.handler.ex.Exception404;
+import com.metacoding.springv2.user.User;
+
+import lombok.RequiredArgsConstructor;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -19,7 +23,7 @@ public class ReplyService {
         Board findBoard = boardRepository.findById(requestDTO.boardId())
                 .orElseThrow(() -> new Exception404("게시글을 찾을 수 없습니다"));
         Reply savedReply = replyRepository.save(requestDTO.toEntity(sessionUser, findBoard));
-        return new ReplyResponse.DTO(savedReply, sessionUser.getUsername());
+        return new ReplyResponse.DTO(savedReply, sessionUser);
     }
 
     @Transactional

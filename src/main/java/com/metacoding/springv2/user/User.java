@@ -1,4 +1,4 @@
-package com.metacoding.springv2.domain.user;
+package com.metacoding.springv2.user;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -20,27 +20,28 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
-    @Column(unique = true,length = 20,nullable = false)
+    @Column(unique = true, length = 20, nullable = false)
     private String username;
-    @Column(length = 60,nullable = false)
+    @Column(length = 60, nullable = false)
     private String password;
-    @Column(length = 30,nullable = false)
+    @Column(length = 30, nullable = false)
     private String email;
-    private String roles; 
+    private String roles;
 
     @CreationTimestamp
     private Timestamp createdAt;
 
     @Builder
-    public User(Integer id,String username, String password, String email, String roles) {
+    public User(Integer id, String username, String password, String email, String roles, Timestamp createdAt) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.roles = roles;
+        this.createdAt = createdAt;
     }
 
-    public void update(String email, String password){
+    public void update(String email, String password) {
         this.email = email;
         this.password = password;
     }

@@ -1,7 +1,8 @@
-package com.metacoding.springv2.web;
+package com.metacoding.springv2.admin;
 
+import com.metacoding.springv2.board.*;
 import com.metacoding.springv2.core.util.Resp;
-import com.metacoding.springv2.domain.board.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

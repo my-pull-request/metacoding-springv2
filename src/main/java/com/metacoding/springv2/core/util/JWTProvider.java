@@ -1,17 +1,17 @@
 package com.metacoding.springv2.core.util;
 
-import com.metacoding.springv2.core.util.JwtUtil;
-import com.metacoding.springv2.domain.user.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import lombok.RequiredArgsConstructor;
+
+import com.metacoding.springv2.user.User;
+
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
 public class JwtProvider {
-
 
     // 요청 헤더에서 토큰 추출
     public String resolveToken(HttpServletRequest request) {
@@ -29,8 +29,7 @@ public class JwtProvider {
             return new UsernamePasswordAuthenticationToken(
                     user,
                     null,
-                    user.getAuthorities()
-            );
+                    user.getAuthorities());
         } catch (Exception e) {
             return null;
         }

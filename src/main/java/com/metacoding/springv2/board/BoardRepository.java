@@ -1,4 +1,4 @@
-package com.metacoding.springv2.domain.board;
+package com.metacoding.springv2.board;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;

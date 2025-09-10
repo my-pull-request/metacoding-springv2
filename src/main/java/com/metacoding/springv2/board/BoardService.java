@@ -1,12 +1,15 @@
-package com.metacoding.springv2.domain.board;
+package com.metacoding.springv2.board;
 
-import com.metacoding.springv2.core.handler.ex.*;
-import com.metacoding.springv2.domain.user.User;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.metacoding.springv2.core.handler.ex.Exception403;
+import com.metacoding.springv2.core.handler.ex.Exception404;
+import com.metacoding.springv2.user.User;
+
+import lombok.RequiredArgsConstructor;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
