@@ -28,14 +28,8 @@ public class AuthControllerTest extends MyRestDoc {
         @Test
         public void join_success_test() throws Exception {
                 // given
-                User user = User.builder()
-                                .username("test")
-                                .password("1234")
-                                .email("test@nate.com")
-                                .roles("USER")
-                                .build();
-
-                String requestBody = om.writeValueAsString(user);
+                AuthRequest.JoinDTO joinDTO = new AuthRequest.JoinDTO("test", "1234", "test@nate.com");
+                String requestBody = om.writeValueAsString(joinDTO);
 
                 // when
                 ResultActions result = mvc.perform(
@@ -56,14 +50,8 @@ public class AuthControllerTest extends MyRestDoc {
         @Test
         public void join_fail_test() throws Exception {
                 // given
-                User user = User.builder()
-                                .username("test")
-                                .password("1234")
-                                .email("test") // 잘못된 이메일
-                                .roles("USER")
-                                .build();
-
-                String requestBody = om.writeValueAsString(user);
+                AuthRequest.JoinDTO joinDTO = new AuthRequest.JoinDTO("test", "1234", "test");
+                String requestBody = om.writeValueAsString(joinDTO);
 
                 // when
                 ResultActions result = mvc.perform(

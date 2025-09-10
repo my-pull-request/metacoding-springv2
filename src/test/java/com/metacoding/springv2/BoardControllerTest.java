@@ -79,12 +79,8 @@ public class BoardControllerTest extends MyRestDoc {
         @Test
         public void save_success_test() throws Exception {
                 // given
-                Board board = Board.builder()
-                                .title("test-title")
-                                .content("test-content")
-                                .user(testUser)
-                                .build();
-                String requestBody = om.writeValueAsString(board);
+                BoardRequest.SaveDTO saveDTO = new BoardRequest.SaveDTO("test-title", "test-content");
+                String requestBody = om.writeValueAsString(saveDTO);
 
                 // when
                 ResultActions result = mvc.perform(

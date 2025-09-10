@@ -496,23 +496,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /join HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 324
+Content-Length: 81
 Host: localhost:8080
 
 {
-  "id" : null,
-  "username" : "testUser",
+  "username" : "test",
   "password" : "1234",
-  "email" : "test@nate.com",
-  "roles" : "USER",
-  "createdAt" : null,
-  "authorities" : [ {
-    "authority" : "ROLE_USER"
-  } ],
-  "enabled" : true,
-  "credentialsNonExpired" : true,
-  "accountNonExpired" : true,
-  "accountNonLocked" : true
+  "email" : "test@nate.com"
 }</code></pre>
 </div>
 </div>
@@ -529,14 +519,14 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: SAMEORIGIN
-Content-Length: 162
+Content-Length: 158
 
 {
   "status" : 200,
   "msg" : "성공",
   "body" : {
     "id" : 3,
-    "username" : "testUser",
+    "username" : "test",
     "email" : "test@nate.com",
     "roles" : "USER"
   }
@@ -553,23 +543,13 @@ Content-Length: 162
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /join HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 315
+Content-Length: 72
 Host: localhost:8080
 
 {
-  "id" : null,
-  "username" : "testUser",
+  "username" : "test",
   "password" : "1234",
-  "email" : "test",
-  "roles" : "USER",
-  "createdAt" : null,
-  "authorities" : [ {
-    "authority" : "ROLE_USER"
-  } ],
-  "enabled" : true,
-  "credentialsNonExpired" : true,
-  "accountNonExpired" : true,
-  "accountNonLocked" : true
+  "email" : "test"
 }</code></pre>
 </div>
 </div>
@@ -635,7 +615,7 @@ Content-Length: 261
 {
   "status" : 200,
   "msg" : "성공",
-  "body" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw"
+  "body" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg"
 }</code></pre>
 </div>
 </div>
@@ -650,7 +630,7 @@ Content-Length: 261
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /check-username?username=testUser HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /check-username?username=test HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -693,7 +673,7 @@ Content-Length: 87
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/users/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -737,12 +717,12 @@ Content-Length: 164
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/users HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
-Content-Length: 66
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
+Content-Length: 64
 Host: localhost:8080
 
 {
-  "email" : "update@metacoding.com",
+  "email" : "test@metacoding.com",
   "password" : "12345"
 }</code></pre>
 </div>
@@ -760,7 +740,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: SAMEORIGIN
-Content-Length: 166
+Content-Length: 164
 
 {
   "status" : 200,
@@ -768,7 +748,7 @@ Content-Length: 166
   "body" : {
     "id" : 1,
     "username" : "ssar",
-    "email" : "update@metacoding.com",
+    "email" : "test@metacoding.com",
     "roles" : "USER"
   }
 }</code></pre>
@@ -789,7 +769,7 @@ Content-Length: 166
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/boards HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -806,31 +786,31 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: SAMEORIGIN
-Content-Length: 474
+Content-Length: 439
 
 {
   "status" : 200,
   "msg" : "성공",
   "body" : [ {
     "id" : 1,
-    "title" : "title 1",
-    "content" : "Spring Study 1"
+    "title" : "title1",
+    "content" : "content1"
   }, {
     "id" : 2,
-    "title" : "title 2",
-    "content" : "Spring Study 2"
+    "title" : "title2",
+    "content" : "content2"
   }, {
     "id" : 3,
-    "title" : "title 3",
-    "content" : "Spring Study 3"
+    "title" : "title3",
+    "content" : "content3"
   }, {
     "id" : 4,
-    "title" : "title 4",
-    "content" : "Spring Study 4"
+    "title" : "title4",
+    "content" : "content4"
   }, {
     "id" : 5,
-    "title" : "title 5",
-    "content" : "Spring Study 5"
+    "title" : "title5",
+    "content" : "content5"
   } ]
 }</code></pre>
 </div>
@@ -848,31 +828,13 @@ Content-Length: 474
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
-Content-Length: 485
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
+Content-Length: 61
 Host: localhost:8080
 
 {
-  "id" : null,
-  "title" : "test title",
-  "content" : "test content",
-  "user" : {
-    "id" : 1,
-    "username" : "ssar",
-    "password" : "1234",
-    "email" : "ssar@metacoding.com",
-    "roles" : "USER",
-    "createdAt" : null,
-    "authorities" : [ {
-      "authority" : "ROLE_USER"
-    } ],
-    "enabled" : true,
-    "credentialsNonExpired" : true,
-    "accountNonExpired" : true,
-    "accountNonLocked" : true
-  },
-  "createdAt" : null,
-  "replies" : [ ]
+  "title" : "test-title",
+  "content" : "test-content"
 }</code></pre>
 </div>
 </div>
@@ -896,8 +858,8 @@ Content-Length: 139
   "msg" : "성공",
   "body" : {
     "id" : 6,
-    "title" : "test title",
-    "content" : "test content"
+    "title" : "test-title",
+    "content" : "test-content"
   }
 }</code></pre>
 </div>
@@ -914,7 +876,7 @@ Content-Length: 139
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/boards/5 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -931,27 +893,27 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: SAMEORIGIN
-Content-Length: 450
+Content-Length: 445
 
 {
   "status" : 200,
   "msg" : "성공",
   "body" : {
     "boardId" : 5,
-    "title" : "title 5",
-    "content" : "Spring Study 5",
+    "title" : "title5",
+    "content" : "content5",
     "userId" : 2,
     "username" : "cos",
     "isOwner" : false,
     "replies" : [ {
       "id" : 4,
       "username" : "ssar",
-      "comment" : "reply 4",
+      "comment" : "comment4",
       "isOwner" : true
     }, {
       "id" : 5,
       "username" : "ssar",
-      "comment" : "reply 5",
+      "comment" : "comment5",
       "isOwner" : true
     } ]
   }
@@ -971,13 +933,13 @@ Content-Length: 450
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/boards/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
-Content-Length: 64
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
+Content-Length: 61
 Host: localhost:8080
 
 {
-  "title" : "update test",
-  "content" : "update content"
+  "title" : "test-title",
+  "content" : "test-content"
 }</code></pre>
 </div>
 </div>
@@ -994,15 +956,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: SAMEORIGIN
-Content-Length: 142
+Content-Length: 139
 
 {
   "status" : 200,
   "msg" : "성공",
   "body" : {
     "id" : 1,
-    "title" : "update test",
-    "content" : "update content"
+    "title" : "test-title",
+    "content" : "test-content"
   }
 }</code></pre>
 </div>
@@ -1019,7 +981,7 @@ Content-Length: 142
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/boards/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1061,12 +1023,12 @@ Content-Length: 61
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/replies HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
 Content-Length: 52
 Host: localhost:8080
 
 {
-  "comment" : "test comment",
+  "comment" : "test-comment",
   "boardId" : 1
 }</code></pre>
 </div>
@@ -1091,7 +1053,7 @@ Content-Length: 198
   "msg" : "성공",
   "body" : {
     "id" : 6,
-    "comment" : "test comment",
+    "comment" : "test-comment",
     "userId" : 1,
     "boardId" : 1,
     "username" : "ssar",
@@ -1112,7 +1074,7 @@ Content-Length: 198
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/replies/4 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NTM2Nn0.KmhyptWq8pHSG8BEDGt3l3ElNbk7iK2xl8ODFjwPDkyamjKxf5jRES6CCVqjuRQ9LBiCa1NrL95TbNtzk5Eklw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc2FyIiwicm9sZXMiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTc1ODA4NjU2Mn0.ZbX_Qec9dl8E_RulCDngqLcMkbRrhrTBtpFlM72cLOsg3YNflU3pRB9_hXikhOj7GwW_3mFEVOuMx3AD6mGdqg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1153,7 +1115,7 @@ Content-Length: 61
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/admin/boards/1 HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3MiLCJyb2xlcyI6IkFETUlOIiwiaWQiOjIsImV4cCI6MTc1ODA4NTM2NX0.YiGhZZTMd0O6dbip9LGmLRnOrBavOzO-uy3GYutQy7qI5qFdS2kiedHOITxn_1cqC1Dm8zkQZIBe_d2pDxP9fQ
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb3MiLCJyb2xlcyI6IkFETUlOIiwiaWQiOjIsImV4cCI6MTc1ODA4NjU2MX0.bbIgP81ZMAK_vSHHMaWTooQmGlQdwXfYSmAr-khbWRjgj18co0FYNxcY3e9XUVN32rvPZ_MzA0Qb-CSBNa-Mwg
 Host: localhost:8080</code></pre>
 </div>
 </div>
