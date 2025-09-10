@@ -29,7 +29,7 @@ public class AuthControllerTest extends MyRestDoc {
         public void join_success_test() throws Exception {
                 // given
                 User user = User.builder()
-                                .username("testUser")
+                                .username("test")
                                 .password("1234")
                                 .email("test@nate.com")
                                 .roles("USER")
@@ -46,7 +46,7 @@ public class AuthControllerTest extends MyRestDoc {
                 result.andExpect(status().isOk()) // HTTP 상태코드 200
                                 .andExpect(jsonPath("$.msg").value("성공"))
                                 .andExpect(jsonPath("$.body.id").value(3))
-                                .andExpect(jsonPath("$.body.username").value("testUser"))
+                                .andExpect(jsonPath("$.body.username").value("test"))
                                 .andExpect(jsonPath("$.body.email").value("test@nate.com"))
                                 .andExpect(jsonPath("$.body.roles").value("USER"))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
@@ -57,7 +57,7 @@ public class AuthControllerTest extends MyRestDoc {
         public void join_fail_test() throws Exception {
                 // given
                 User user = User.builder()
-                                .username("testUser")
+                                .username("test")
                                 .password("1234")
                                 .email("test") // 잘못된 이메일
                                 .roles("USER")
@@ -93,7 +93,7 @@ public class AuthControllerTest extends MyRestDoc {
                 result.andExpect(status().isOk()) // HTTP 200
                                 .andExpect(jsonPath("$.msg").value("성공"))
                                 .andExpect(jsonPath("$.body").isNotEmpty())
-                                .andExpect(jsonPath("$.body").value(startsWith("Bearer ")))
+                                .andExpect(jsonPath("$.body").value(startsWith("Bearer"))) // 스페이스 삭제함
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
 
@@ -101,7 +101,7 @@ public class AuthControllerTest extends MyRestDoc {
         @Test
         public void checkUsername_success_test() throws Exception {
                 // given
-                String username = "testUser";
+                String username = "test";
 
                 // when
                 ResultActions result = mvc.perform(

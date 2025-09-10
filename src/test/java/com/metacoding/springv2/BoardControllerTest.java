@@ -58,20 +58,20 @@ public class BoardControllerTest extends MyRestDoc {
                                 .andExpect(jsonPath("$.msg").value("성공"))
                                 .andExpect(jsonPath("$.body", hasSize(5)))
                                 .andExpect(jsonPath("$.body[0].id").value(1))
-                                .andExpect(jsonPath("$.body[0].title").value("title 1"))
-                                .andExpect(jsonPath("$.body[0].content").value("Spring Study 1"))
+                                .andExpect(jsonPath("$.body[0].title").value("title1"))
+                                .andExpect(jsonPath("$.body[0].content").value("content1"))
                                 .andExpect(jsonPath("$.body[1].id").value(2))
-                                .andExpect(jsonPath("$.body[1].title").value("title 2"))
-                                .andExpect(jsonPath("$.body[1].content").value("Spring Study 2"))
+                                .andExpect(jsonPath("$.body[1].title").value("title2"))
+                                .andExpect(jsonPath("$.body[1].content").value("content2"))
                                 .andExpect(jsonPath("$.body[2].id").value(3))
-                                .andExpect(jsonPath("$.body[2].title").value("title 3"))
-                                .andExpect(jsonPath("$.body[2].content").value("Spring Study 3"))
+                                .andExpect(jsonPath("$.body[2].title").value("title3"))
+                                .andExpect(jsonPath("$.body[2].content").value("content3"))
                                 .andExpect(jsonPath("$.body[3].id").value(4))
-                                .andExpect(jsonPath("$.body[3].title").value("title 4"))
-                                .andExpect(jsonPath("$.body[3].content").value("Spring Study 4"))
+                                .andExpect(jsonPath("$.body[3].title").value("title4"))
+                                .andExpect(jsonPath("$.body[3].content").value("content4"))
                                 .andExpect(jsonPath("$.body[4].id").value(5))
-                                .andExpect(jsonPath("$.body[4].title").value("title 5"))
-                                .andExpect(jsonPath("$.body[4].content").value("Spring Study 5"))
+                                .andExpect(jsonPath("$.body[4].title").value("title5"))
+                                .andExpect(jsonPath("$.body[4].content").value("content5"))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
 
@@ -80,8 +80,8 @@ public class BoardControllerTest extends MyRestDoc {
         public void save_success_test() throws Exception {
                 // given
                 Board board = Board.builder()
-                                .title("test title")
-                                .content("test content")
+                                .title("test-title")
+                                .content("test-content")
                                 .user(testUser)
                                 .build();
                 String requestBody = om.writeValueAsString(board);
@@ -98,8 +98,8 @@ public class BoardControllerTest extends MyRestDoc {
                                 .andExpect(jsonPath("$.status").value(200))
                                 .andExpect(jsonPath("$.msg").value("성공"))
                                 .andExpect(jsonPath("$.body.id").value(6))
-                                .andExpect(jsonPath("$.body.title").value("test title"))
-                                .andExpect(jsonPath("$.body.content").value("test content"))
+                                .andExpect(jsonPath("$.body.title").value("test-title"))
+                                .andExpect(jsonPath("$.body.content").value("test-content"))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
 
@@ -118,15 +118,15 @@ public class BoardControllerTest extends MyRestDoc {
                                 .andExpect(jsonPath("$.status").value(200))
                                 .andExpect(jsonPath("$.msg").value("성공"))
                                 .andExpect(jsonPath("$.body.boardId").value(boardId))
-                                .andExpect(jsonPath("$.body.title").value("title 5"))
-                                .andExpect(jsonPath("$.body.content").value("Spring Study 5"))
+                                .andExpect(jsonPath("$.body.title").value("title5"))
+                                .andExpect(jsonPath("$.body.content").value("content5"))
                                 .andExpect(jsonPath("$.body.userId").value(2))
                                 .andExpect(jsonPath("$.body.username").value("cos"))
                                 .andExpect(jsonPath("$.body.isOwner").value(false))
                                 .andExpect(jsonPath("$.body.replies", hasSize(2)))
                                 .andExpect(jsonPath("$.body.replies[0].id").value(4))
                                 .andExpect(jsonPath("$.body.replies[0].username").value("ssar"))
-                                .andExpect(jsonPath("$.body.replies[0].comment").value("reply 4"))
+                                .andExpect(jsonPath("$.body.replies[0].comment").value("comment4"))
                                 .andExpect(jsonPath("$.body.replies[0].isOwner").value(true))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
@@ -136,7 +136,7 @@ public class BoardControllerTest extends MyRestDoc {
         public void update_success_test() throws Exception {
                 // given
                 Integer boardId = 1;
-                BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO("update test", "update content");
+                BoardRequest.UpdateDTO updateDTO = new BoardRequest.UpdateDTO("test-title", "test-content");
 
                 String requestBody = om.writeValueAsString(updateDTO);
 
@@ -152,8 +152,8 @@ public class BoardControllerTest extends MyRestDoc {
                                 .andExpect(jsonPath("$.status").value(200))
                                 .andExpect(jsonPath("$.msg").value("성공"))
                                 .andExpect(jsonPath("$.body.id").value(1))
-                                .andExpect(jsonPath("$.body.title").value("update test"))
-                                .andExpect(jsonPath("$.body.content").value("update content"))
+                                .andExpect(jsonPath("$.body.title").value("test-title"))
+                                .andExpect(jsonPath("$.body.content").value("test-content"))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
 

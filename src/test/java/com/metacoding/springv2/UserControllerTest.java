@@ -43,7 +43,7 @@ class UserControllerTest extends MyRestDoc {
         @Test
         public void updateUser_success_test() throws Exception {
                 // given
-                UserRequest.UpdateDTO updateDTO = new UserRequest.UpdateDTO("update@metacoding.com", "12345");
+                UserRequest.UpdateDTO updateDTO = new UserRequest.UpdateDTO("test@metacoding.com", "12345");
 
                 String requestBody = om.writeValueAsString(updateDTO);
 
@@ -60,7 +60,7 @@ class UserControllerTest extends MyRestDoc {
                                 .andExpect(jsonPath("$.msg").value("성공"))
                                 .andExpect(jsonPath("$.body.id").value(1))
                                 .andExpect(jsonPath("$.body.username").value("ssar"))
-                                .andExpect(jsonPath("$.body.email").value("update@metacoding.com"))
+                                .andExpect(jsonPath("$.body.email").value("test@metacoding.com"))
                                 .andExpect(jsonPath("$.body.roles").value("USER"))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }

@@ -49,7 +49,7 @@ class ReplyControllerTest extends MyRestDoc {
         @Test
         public void save_success_test() throws Exception {
                 // given
-                ReplyRequest.SaveDTO saveDTO = new ReplyRequest.SaveDTO("test comment", 1);
+                ReplyRequest.SaveDTO saveDTO = new ReplyRequest.SaveDTO("test-comment", 1);
 
                 String requestBody = om.writeValueAsString(saveDTO);
 
@@ -62,7 +62,7 @@ class ReplyControllerTest extends MyRestDoc {
                 // then
                 result.andExpect(status().isOk())
                                 .andExpect(jsonPath("$.body.id").isNumber())
-                                .andExpect(jsonPath("$.body.comment").value("test comment"))
+                                .andExpect(jsonPath("$.body.comment").value("test-comment"))
                                 .andExpect(jsonPath("$.body.userId").value(1))
                                 .andExpect(jsonPath("$.body.username").value("ssar"))
                                 .andExpect(jsonPath("$.body.boardId").value(1))
