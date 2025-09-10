@@ -24,7 +24,7 @@ public class RespFilter {
         } catch (JsonProcessingException e) {
             log.error("JSON 변환 실패", e);
             responseBody = """
-                    {"status":500, "msg":"서버 내부 오류", body:null}
+                    {"status":500, "msg":"서버 내부 오류", "body":null}
                     """;
             ;
         }
