@@ -1,8 +1,9 @@
-package com.metacoding.springv2.web;
+package com.metacoding.springv2;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.metacoding.springv2.MyRestDoc;
 import com.metacoding.springv2.core.util.JwtUtil;
+import com.metacoding.springv2.reply.ReplyRequest;
 import com.metacoding.springv2.user.User;
-import com.metacoding.springv2.user.UserRequest;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-class UserControllerTest extends MyRestDoc {
+class ReplyControllerTest extends MyRestDoc {
         @Autowired
         private ObjectMapper om;
 
@@ -40,49 +40,50 @@ class UserControllerTest extends MyRestDoc {
                 accessToken = JwtUtil.create(testUser);
         }
 
-        // 회원수정 성공
-        @Test
-        public void updateUser_success_test() throws Exception {
-                // given
-                UserRequest.UpdateDTO updateDTO = new UserRequest.UpdateDTO("update@metacoding.com", "12345");
+        @AfterEach
+        void tearDown() {
+                // 테스트 후 정리 작업 (필요시)
+        }
 
-                String requestBody = om.writeValueAsString(updateDTO);
+        // 댓글 작성 성공
+        @Test
+        public void save_success_test() throws Exception {
+                // given
+                ReplyRequest.SaveDTO saveDTO = new ReplyRequest.SaveDTO("test comment", 1);
+
+                String requestBody = om.writeValueAsString(saveDTO);
 
                 // when
                 ResultActions result = mvc.perform(
-                                MockMvcRequestBuilders.put("/api/users")
+                                MockMvcRequestBuilders.post("/api/replies")
                                                 .header("Authorization", accessToken)
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .content(requestBody));
-
                 // then
                 result.andExpect(status().isOk())
-                                .andExpect(jsonPath("$.status").value(200))
-                                .andExpect(jsonPath("$.msg").value("성공"))
-                                .andExpect(jsonPath("$.body.id").value(1))
+                                .andExpect(jsonPath("$.body.id").isNumber())
+                                .andExpect(jsonPath("$.body.comment").value("test comment"))
+                                .andExpect(jsonPath("$.body.userId").value(1))
                                 .andExpect(jsonPath("$.body.username").value("ssar"))
-                                .andExpect(jsonPath("$.body.email").value("update@metacoding.com"))
-                                .andExpect(jsonPath("$.body.roles").value("USER"))
+                                .andExpect(jsonPath("$.body.boardId").value(1))
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
 
-        // 회원조회 성공
+        // 댓글 삭제 성공
         @Test
-        public void getUser_success_test() throws Exception {
+        public void deleteById_success_test() throws Exception {
                 // given
-                Integer userId = 1;
+                Integer replyId = 4;
                 // when
                 ResultActions result = mvc.perform(
-                                MockMvcRequestBuilders.get("/api/users/" + userId)
+                                MockMvcRequestBuilders.delete("/api/replies/" + replyId)
                                                 .header("Authorization", accessToken));
                 // then
                 result.andExpect(status().isOk())
                                 .andExpect(jsonPath("$.status").value(200))
                                 .andExpect(jsonPath("$.msg").value("성공"))
-                                .andExpect(jsonPath("$.body.id").value(1))
-                                .andExpect(jsonPath("$.body.username").value("ssar"))
-                                .andExpect(jsonPath("$.body.email").value("ssar@metacoding.com"))
-                                .andExpect(jsonPath("$.body.roles").value("USER"))
+                                .andExpect(jsonPath("$.body").isEmpty())
                                 .andDo(MockMvcResultHandlers.print()).andDo(document);
         }
+
 }

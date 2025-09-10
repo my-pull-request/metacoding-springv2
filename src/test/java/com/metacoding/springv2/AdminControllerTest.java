@@ -1,4 +1,4 @@
-package com.metacoding.springv2.web;
+package com.metacoding.springv2;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.metacoding.springv2.MyRestDoc;
 import com.metacoding.springv2.core.util.JwtUtil;
 import com.metacoding.springv2.user.User;
 
