@@ -1,4 +1,4 @@
-package com.metacoding.springv2.core.util;
+package com.metacoding.springv2._core.util;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

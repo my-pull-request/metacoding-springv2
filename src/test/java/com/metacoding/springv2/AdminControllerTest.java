@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.metacoding.springv2.core.util.JwtUtil;
+import com.metacoding.springv2._core.util.JwtUtil;
 import com.metacoding.springv2.user.User;
 
 @Transactional

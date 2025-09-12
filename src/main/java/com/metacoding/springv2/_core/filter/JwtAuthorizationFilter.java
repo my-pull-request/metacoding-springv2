@@ -1,6 +1,5 @@
-package com.metacoding.springv2.core.filter;
+package com.metacoding.springv2._core.filter;
 
-import com.metacoding.springv2.core.util.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.metacoding.springv2._core.util.JwtProvider;
+
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;

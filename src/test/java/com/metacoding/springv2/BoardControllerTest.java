@@ -15,9 +15,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metacoding.springv2._core.util.JwtUtil;
 import com.metacoding.springv2.board.Board;
 import com.metacoding.springv2.board.BoardRequest;
-import com.metacoding.springv2.core.util.JwtUtil;
 import com.metacoding.springv2.user.User;
 
 @Transactional

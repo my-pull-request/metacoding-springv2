@@ -1,8 +1,5 @@
-package com.metacoding.springv2.core.config;
+package com.metacoding.springv2._core.config;
 
-import com.metacoding.springv2.core.filter.JwtAuthorizationFilter;
-import com.metacoding.springv2.core.util.JwtProvider;
-import com.metacoding.springv2.core.util.RespFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +12,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.metacoding.springv2._core.filter.JwtAuthorizationFilter;
+import com.metacoding.springv2._core.util.JwtProvider;
+import com.metacoding.springv2._core.util.RespFilter;
 
 import java.util.List;
 

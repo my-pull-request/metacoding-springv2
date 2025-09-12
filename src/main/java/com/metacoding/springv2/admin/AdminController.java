@@ -1,7 +1,7 @@
 package com.metacoding.springv2.admin;
 
+import com.metacoding.springv2._core.util.Resp;
 import com.metacoding.springv2.board.*;
-import com.metacoding.springv2.core.util.Resp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
